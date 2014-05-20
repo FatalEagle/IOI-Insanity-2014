@@ -1,3 +1,3 @@
-IOI-Insanity-2014
+Maniacal Midsummer Marathon 2014
 =================
-Insane practice contest for IOI '14 competitors for the PEG Judge. This will go live for two weeks on www.wcipeg.com/contests  during the summer.
+An two-week long coding challenge insane difficulty that will take place in late June on the PEG Judge (www.wcipeg.com/contests). It is open to anybody in general, but in particular may benefit IOI '14 competitors.
