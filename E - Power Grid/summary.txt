@@ -1,0 +1,35 @@
+EXPECTED COMPLEXITY N^3 * M
+
+Test case:
+SPARSE; ALL POSITIVE REVENUE
+1.in -- 11 0 5 / 1 -- equal profit from many voltages
+2.in -- 11 0 6 / 0 -- same as 1.in, but raise A for negative profit
+3.in -- 11 1 4 / 0 -- same as 1.in, but lower revenue to negate profit
+SPARSE; ALL SAME VOLTAGE REQUIREMENT
+4.in -- 15 0 0 / 15 -- take them all
+5.in -- 15 14 0 / 1 -- take any positive to take all the negatives
+TRICKY [SMALL]
+6.in -- 5 3 5 / 2 -- one cycle of length two, and a -> b where b is negative and has higher voltage than this
+7.in -- 8 8 2 / 20 -- big cycle
+RANDOM [SMALL]
+8.in -- 20 20 10 / 99
+9.in -- 20 20 5 / 64
+10.in -- 20 50 3 / 253
+TRICKY [LARGE]
+11.in -- 100 99 1 / 0
+12.in -- 100 99 1 / 4851
+13.in -- 100 99 1 / 6930000
+14.in -- 100 99 1 / 0
+15.in -- 100 99 67 / 3299692
+RANDOM 1 [LARGE]
+16.in -- 100 200 1 / 45169762
+17.in -- 100 250 9999 / 100000
+18.in -- 100 350 2 / 122474801
+19.in -- 100 400 4 / 27
+20.in -- 100 75 13 / 257564533
+RANDOM 2 [LARGE]
+21.in -- 100 33 1 / 258899303
+22.in -- 100 10 19 / 201265720
+23.in -- 100 50 1 / 196492666
+24.in -- 100 225 10 / 75631519
+25.in -- 100 400 2 / 471276723
