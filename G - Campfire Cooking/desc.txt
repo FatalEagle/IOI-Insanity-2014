@@ -1,0 +1,107 @@
+Campfire Cooking
+Esdeath is currently enjoying a wonderful dinner with subordinates in her army. There is a giant pot on a campfire, and N (2 <= N <= 100000) soldiers surround the pot in a circle, numbered from 1 to N, clockwise. Each of the soldiers hold a specific type of food that tastes best when cooked at a temperature of between C_i and C_j (1 <= i <= N; 1 <= C_i <= C_j <= M) degrees Celsius. Call this the optimal temerature range.
+Each minute of T minutes (1 <= T <= 100000), one of three possible events occur.
+The first type of event is that Esdeath would like to try a new combination of foods, so all soldiers that have a number between i and j (1 <= i, j <= N note: it is *not* necessarily true that i <= j) will pitch in some food if they type of food they hold tastes best within a certain range of the current temperature of the pot: if the current temperature is P, foods with optimal temperatures overlapping with the range [P - l, P + h] (inclusive; 0 <= l, h <= 100000) are acceptable. Here, between means starting from the i-th soldier and going clockwise around the circle until you reach the j-th soldier, inclusive. The pot's temperature starts at P degrees Celsius, and every time the soldiers toss food into the pot, its temperature will change. The new temperature can be calculated by this formula:
+P_new = (P_old * A + F * B) mod M + 1
+where A, B, and C are constants (0 <= A, B <= 1000; 1 <= M <= 100000), and F is the number of types of foods tossed in the pot.
+For each of the these queries, please determine how many types of foods are tossed in the pot.
+The second type of event is that the i-th soldier gets new food. The new food will have an optimal temperature range between l and h (1 <= i <= N, 1<= l <= h <= M).
+The third type of event is to determine the minimum temperature of the k-th piece of food that could possibly be put in the pot, if the soldiers that have a number between i and j were to participate in a type 1 event. Since the soldiers have not yet determined the temperature of the pot, assume all soliders in the range will participate. The soldiers put food in the pot in the order of the minimum optimal temperatures of their food. Note that this does not change the temperature of the pot, because the soldiers do not actually put food in. Output -1 if this value does not exist.
+
+Input Format
+N T P A B M
+[C_i C_j] * N
+[t i j l h] / [t i l h] / [i j k] * T
+1 <= P <= M
+0 <= type_2_event <= 25000
+
+Sample Input 1
+5 4 4 1 1 10
+1 3
+4 6
+7 9
+3 5
+2 4
+1 1 5 1 0
+1 2 4 0 0
+1 3 3 0 0
+1 3 2 0 0
+
+Sample Output 1
+4
+1
+0
+2
+
+Explanation
+The pot starts at a temperature of 4 degrees Celsius. The range of temperatures is [3, 4]. All soldiers participate, and four types of food are thrown into the pot.
+The pot becomes (4 * 1 + 4 * 1) mod 10 + 1 = 9 degrees Celsius.
+Soldiers 2, 3, and 4 participate, and 1 type of food is thrown into the pot.
+The pot becomes (9 * 1 + 1 * 1) mod 10 + 1 = 1 degree Celsius.
+The third soldier cannot throw any food into the pot.
+The pot becomes (1 * 1 + 0 * 1) mod 10 + 1 = 2 degree Celsius.
+All soldiers participate again, and two pieces of food are thrown into the pot.
+The pot becomes (2 * 1 + 2 * 1) mod 10 + 1 = 5 degree Celsius, and the dinner ends.
+
+Sample Input 2
+3 10 1 2 3 10
+1 1
+1 5
+1 10
+1 1 3 0 9
+2 3 10 10
+1 1 3 1 1
+1 1 3 0 9
+1 1 3 0 1
+2 2 9 9
+1 1 3 0 2
+1 1 3 2 0
+1 1 2 0 0
+1 1 2 0 0
+
+Sample Output 2
+3
+2
+3
+1
+2
+1
+0
+1
+
+Sample Input 3
+5 12 1 0 0 5
+3 3
+1 1
+3 3
+4 4
+2 2
+3 1 5 1
+3 2 1 2
+3 3 2 3
+3 4 3 4
+3 5 4 5
+3 1 3 1
+3 1 3 2
+3 1 3 3
+3 4 2 4
+3 1 2 3
+3 4 1 5
+3 4 1 2
+
+Sample Output 3
+1
+2
+3
+3
+4
+1
+3
+3
+4
+-1
+-1
+3
+
+Time Limit: 4s (subject to change)
+Memory Limit: 256mb (subject to change)
