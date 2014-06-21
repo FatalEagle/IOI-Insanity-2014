@@ -11,7 +11,7 @@
 
 <p>For example, a BNF definition for any integer is as follows:</p>
 <pre style="word-break: break-word;">
-       &lt;integer&gt; ::= "0" | ["-"] &lt;natural-number&gt;
+       &lt;integer&gt; ::= "0" | [ "-" ] &lt;natural-number&gt;
 &lt;natural-number&gt; ::= &lt;non-zero-digit&gt; { &lt;digit&gt; }
 &lt;non-zero-digit&gt; ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
          &lt;digit&gt; ::= 0 | &lt;non-zero-digit&gt;
@@ -24,61 +24,46 @@
 
 <p>will strictly accept nothing else except for the string "<code>ab</code>" (without quotes). For the purposes of this problem, you may assume that literals will only consist of upper and lowercase alphabetical characters from <code>A</code> to <code>Z</code>, numerical digits from <code>0</code> to <code>9</code>, spaces, and punctuation. You do not have to worry about quotation marks being a part of string literals. We shall assume that the symbol <code>&lt;EOL&gt;</code> represents an end-of-line character. For the sake of simplicity in this problem, <b>comparisons with definitions and texts are not case sensitive</b>.</p>
 
-<p>For another example of BNF, we can try to actually define an essay. In order to define an essay with proper spelling, your teacher will first have to give you a large lexicon of valid words defined in BNF like the following. Don't worry, these lists will be provided to you in the same BNF definition list so that all symbols are defined.</p>
+<p>For another example of BNF, we can try to define an actual essay. In order to define an essay with proper spelling, your teacher will first have to give you a large lexicon of valid words defined in BNF like the following. Don't worry, these lists will be provided to you in the same BNF definition list so that all symbols are defined.</p>
 
 <pre style="word-break: break-word;">
-       &lt;noun&gt; ::= cat | hat | mice | mouse | &hellip;
-       &lt;verb&gt; ::= is | am | are | eats | turn | &hellip;
-  &lt;adjective&gt; ::= hungry | smelly | cool | happy | &hellip;
-     &lt;adverb&gt; ::= right | left | quickly | slowly | &hellip;
-    &lt;pronoun&gt; ::= I | me | you | it | &hellip;
-    &lt;article&gt; ::= the | a | an | &hellip;
-&lt;preposition&gt; ::= to | in | on | near | &hellip;
-&lt;conjunction&gt; ::= and | or | but | &hellip;
- &lt;determiner&gt; ::= that | which | who | &hellip;
+     &lt;noun&gt; ::= cat | mice | &hellip;
+  &lt;pronoun&gt; ::= I | me | you | &hellip;
+     &lt;verb&gt; ::= am | are | is | eats | &hellip;
+&lt;adjective&gt; ::= cool | smelly | smart | &hellip;
+   &lt;adverb&gt; ::= quickly | slowly | &hellip;
+  &lt;article&gt; ::= the | a | an | &hellip;
 </pre>
 
-<p>Following this, the actual essay is defined as follows as a series of paragraphs, which on their own are pseudo-English sentences.</p>
+<p>Following this, we can define the actual structure of an essay. Below, an essay is defined as a series of paragraphs, which themselves are a series of pseudo-English sentences. For illustration purposes, this definition is very simple and clearly does not cover all English sentences. In actuality, your teacher may send you something much more rigorous and extensive.</p>
 
 <table>
 <tr><th>Definition</th><th>Example Matches/Breakdown</th></tr>
 <tr><td style="vertical-align: text-top;">
 <pre style="word-break: break-word;">
-             &lt;essay&gt; ::= &lt;paragraph&gt; { &lt;paragraph&gt; }
-         &lt;paragraph&gt; ::= &lt;sentence&gt; "." { " " &lt;sentence&gt; "." } &lt;EOL&gt;
-          &lt;sentence&gt; ::= &lt;noun-phrase&gt; " " &lt;verb-phrase&gt; |
-                         &lt;sentence&gt; " " &lt;conjunction&gt; " " &lt;sentence&gt;
-       &lt;noun-phrase&gt; ::= &lt;pronoun&gt; |
-                         &lt;noun&gt; |
-                         &lt;article&gt; " " &lt;noun&gt; |
-                         &lt;noun-phrase&gt; " " &lt;preposition-phrase&gt; |
-                         &lt;noun-phrase&gt; " " &lt;relative-clause&gt;
-       &lt;verb-phrase&gt; ::= &lt;verb&gt; |
-                         &lt;verb-phrase&gt; " " &lt;noun-phrase&gt; |
-                         &lt;verb-phrase&gt; " " &lt;adjective&gt; |
-                         &lt;verb-phrase&gt; " " &lt;adverb&gt; |
-                         &lt;verb-phrase&gt; " " &lt;preposition-phrase&gt;
-&lt;preposition-phrase&gt; ::= &lt;preposition&gt; " " &lt;noun-phrase&gt;
-   &lt;relative-clause&gt; ::= &lt;determiner&gt; " " &lt;verb-phrase&gt;
+      &lt;essay&gt; ::= &lt;paragraph&gt; { &lt;paragraph&gt; }
+  &lt;paragraph&gt; ::= &lt;sentence&gt; "." { " " &lt;sentence&gt; "." } &lt;EOL&gt;
+   &lt;sentence&gt; ::= &lt;noun-phrase&gt; " " &lt;verb-phrase&gt;
+&lt;noun-phrase&gt; ::= &lt;pronoun&gt; |
+                  &lt;noun&gt; |
+                  &lt;article&gt; " " &lt;noun&gt;
+&lt;verb-phrase&gt; ::= &lt;verb&gt; |
+                  &lt;verb-phrase&gt; " " &lt;noun-phrase&gt; |
+                  &lt;verb-phrase&gt; " " &lt;adverb&gt; |
+                  &lt;verb-phrase&gt; " " &lt;adjective&gt;
 </pre>
 </td><td style="padding-left: 30px; vertical-align: text-top;">
 <pre style="word-break: break-word;">
 
 "I am cool" + "." + " " + "You are cool" + "."
-"I" + " " + "am cool"
-"I am cool" + " " + "and" + " " + "you are cool"
+"The cat" + " " + "eats mice quickly"
 "I"
-"Mice"
+"mice"
 "The" + " " + "cat"
-"The cat" + " " + "in the hat"
-"The cat in the hat " + "that is hungry"
 "eats"
 "eats" + " " + "mice"
-"is" + " " + "hungry"
 "eats mice" + " " + "quickly"
-"turn" + " " + "to the left"
-"to" + " " + "the left"
-"that" + " " + "is hungry"
+"am" + " " + "cool"
 </pre>
 </td></tr>
 </table>
@@ -92,21 +77,21 @@
 &lt;bar&gt; ::= &lt;foo&gt;
 </pre>
 
-<p>In either of these cases, we shall define the symbol <code>&lt;foo&gt;</code> to accept exactly 0 possible strings. Note that if we had defined <code>&lt;foo&gt; ::= &lt;foo&gt; | "a"</code>, then the set of all accepted strings would be {<code>a</code>, <code>aa</code>, <code>aaa</code>, &hellip;}, and the definition would no longer be indeterminate.</p>
+<p>In either of these two cases, we shall consider the number of accepted strings by the defined symbols to be 0. Note that if we had defined <code>&lt;foo&gt; ::= &lt;foo&gt; | "a"</code>, then the set of all accepted strings would be {<code>a</code>, <code>aa</code>, <code>aaa</code>, &hellip;}, and the definition would no longer be indeterminate.</p>
 
 <p>Now back to your English essay.</p>
 
 <p>Obviously you would like to do as little work as possible to pass English. So, given the Backus-Naur Form that your teacher has sent you, you would like to write a program that determines the length of the shortest possible string accepted by the symbol <code>&lt;essay&gt;</code> in the definition.</p>
 
 <h3>Input Format</h3>
-<p>The input will contain the proper format of the essay, using the Backus-Naur Form variant as described above. It is guaranteed that all used symbols will be defined, and that the symbol <code>&lt;essay&gt;</code> will be defined somewhere. Definitions may span across multiple lines, although the start of a new definition will always be on a separate line than the end of the previous definition. There may be up to 5000 symbols defined, and the size of the input will not exceed 5MB. Symbols, literals, "<code>::=</code>"s, "<code>|</code>"s, and brackets will be separated by 1 or more spaces. Each line of input will contain at most 1000 characters, and there may be empty lines in the input which you must ignore.</p>
+<p>The input will contain the proper format of the essay, using the Backus-Naur Form variant as described above. It is guaranteed that all used symbols will be defined, and that the symbol <code>&lt;essay&gt;</code> will be defined somewhere. Definitions may span across multiple lines, although the start of a new definition will always be on a separate line than the end of the previous definition. A literal in quotes will never span across multiple lines. Symbols, literals, "<code>::=</code>"s, "<code>|</code>"s, and brackets may be separated by 1 or more spaces. There may be up to 5000 symbols defined, and the size of the input will not exceed 5MB. Each line of input will contain at most 1000 characters, and there may be empty lines in the input which you must ignore.</p>
 
 <h3>Output Format</h3>
-<p>If the definition of <code>&lt;essay&gt;</code> is indeterminate, output the word "<code>indeterminate</code>" (without quotes) on a single line. Otherwise, the output should consist of a single integer - the length of the shortest string accepted by the symbol <code>&lt;essay&gt;</code>. An end-of-line symbol <code>&lt;EOL&gt;</code> counts as 1 character when matched.</p>
+<p>The output should consist of a single integer - the length of the shortest string accepted by the symbol <code>&lt;essay&gt;</code>. If the symbol's definition is indeterminate, output <code>-1</code>. An end-of-line symbol <code>&lt;EOL&gt;</code> counts as 1 character when matched.</p>
 
 <h3>Sample Input 1</h3>
 <pre>
-       &lt;integer&gt; ::= "0" | ["-"] &lt;natural-number&gt;
+       &lt;integer&gt; ::= "0" | [ "-" ] &lt;natural-number&gt;
 &lt;natural-number&gt; ::= &lt;non-zero-digit&gt; { &lt;digit&gt; }
 &lt;non-zero-digit&gt; ::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
          &lt;digit&gt; ::= 0 | &lt;non-zero-digit&gt;
@@ -121,35 +106,26 @@
 
 <h3>Sample Input 2</h3>
 <pre>
-             &lt;essay&gt; ::= &lt;paragraph&gt; { &lt;paragraph&gt; }
-         &lt;paragraph&gt; ::= &lt;sentence&gt; "." { " " &lt;sentence&gt; "." } &lt;EOL&gt;
-          &lt;sentence&gt; ::= &lt;noun-phrase&gt; " " &lt;verb-phrase&gt; |
-                         &lt;sentence&gt; " " &lt;conjunction&gt; " " &lt;sentence&gt;
-       &lt;noun-phrase&gt; ::= &lt;pronoun&gt; |
-                         &lt;noun&gt; |
-                         &lt;article&gt; " " &lt;noun&gt; |
-                         &lt;noun-phrase&gt; " " &lt;preposition-phrase&gt; |
-                         &lt;noun-phrase&gt; " " &lt;relative-clause&gt;
-       &lt;verb-phrase&gt; ::= &lt;verb&gt; |
-                         &lt;verb-phrase&gt; " " &lt;noun-phrase&gt; |
-                         &lt;verb-phrase&gt; " " &lt;adjective&gt; |
-                         &lt;verb-phrase&gt; " " &lt;adverb&gt; |
-                         &lt;verb-phrase&gt; " " &lt;preposition-phrase&gt;
-&lt;preposition-phrase&gt; ::= &lt;preposition&gt; " " &lt;noun-phrase&gt;
-   &lt;relative-clause&gt; ::= &lt;determiner&gt; " " &lt;verb-phrase&gt;
-              &lt;noun&gt; ::= cat | hat | mice | mouse
-              &lt;verb&gt; ::= am | are | is | eats | turn
-         &lt;adjective&gt; ::= hungry | smelly | cool | happy
-            &lt;adverb&gt; ::= right | left | quickly | slowly
-           &lt;pronoun&gt; ::= I | me | you | it
-           &lt;article&gt; ::= the | a | an
-       &lt;preposition&gt; ::= to | in | on | near
-       &lt;conjunction&gt; ::= and | or | but
-        &lt;determiner&gt; ::= that | which | who
+      &lt;essay&gt; ::= &lt;paragraph&gt; { &lt;paragraph&gt; }
+  &lt;paragraph&gt; ::= &lt;sentence&gt; "." { " " &lt;sentence&gt; "." } &lt;EOL&gt;
+   &lt;sentence&gt; ::= &lt;noun-phrase&gt; " " &lt;verb-phrase&gt;
+&lt;noun-phrase&gt; ::= &lt;pronoun&gt; |
+                  &lt;noun&gt; |
+                  &lt;article&gt; " " &lt;noun&gt;
+&lt;verb-phrase&gt; ::= &lt;verb&gt; |
+                  &lt;verb-phrase&gt; " " &lt;noun-phrase&gt; |
+                  &lt;verb-phrase&gt; " " &lt;adverb&gt; |
+                  &lt;verb-phrase&gt; " " &lt;adjective&gt;
+       &lt;noun&gt; ::= cat | mice
+    &lt;pronoun&gt; ::= I | me | you
+       &lt;verb&gt; ::= am | are | is | eats
+  &lt;adjective&gt; ::= cool | smelly | smart
+     &lt;adverb&gt; ::= quickly | slowly
+    &lt;article&gt; ::= the | a | an
 </pre>
 
 <h3>Sample Output 2</h3>
 <pre>6</pre>
 
 <h3>Explanation for Sample 2</h3>
-<p>One possible shortest string is "<code>I am.</code>" followed by an EOL character, for an answer of 6.
+<p>One possible shortest string is "<code>I am.</code>" followed by an EOL character, for a total length of 6.</p>
