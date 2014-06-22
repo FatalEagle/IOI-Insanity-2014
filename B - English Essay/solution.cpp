@@ -1,6 +1,6 @@
-//English Essay
-//Official Solution - O(N)
-//by Alex Li
+// English Essay
+// Official Solution - O(N)
+// By Alex Li
 
 #include <algorithm>
 #include <iostream>
@@ -111,9 +111,9 @@ int find_OR(int lo, int hi) {
   return -1;
 }
 
-//range [lo, hi) in the tokens vector to build from
+//build expression tree using [lo, hi) of the tokens list
 node_t* build_tree(int lo, int hi) {
-  if (lo >= hi) return NULL; //???
+  if (lo >= hi) return NULL;
   int idx = find_OR(lo, hi);
   if (idx == -1) { //base case - leaf node
     node_t *n = new node_t();
@@ -140,14 +140,14 @@ void build_definitions() {
   }
 }
 
-map<node_t*, int> memo;
+map<node_t*, int> DP;
 map<node_t*, int>::iterator it;
 set<node_t*> S;
 
 int best(node_t *n) {
   if (n == NULL) return INF;
   if (n->is_root) {
-    if ((it = memo.find(n)) != memo.end()) return it->second;
+    if ((it = DP.find(n)) != DP.end()) return it->second;
     if (S.count(n)) return INF;
   }
   int ret;
@@ -158,7 +158,7 @@ int best(node_t *n) {
   } else {
     ret = 0;
     vector<item_t>::iterator it2 = n->items.begin();
-    for (; it2 != n->items.end(); it2++) {
+    for (; it2 != n->items.end(); ++it2) {
       if (it2->is_literal) {
         ret += it2->value.length();
       } else {
@@ -173,7 +173,7 @@ int best(node_t *n) {
       }
     }
   }
-  if (n->is_root) memo[n] = ret;
+  if (n->is_root) DP[n] = ret;
   return ret;
 }
 

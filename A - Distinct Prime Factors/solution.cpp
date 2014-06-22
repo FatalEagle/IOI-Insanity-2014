@@ -1,6 +1,6 @@
-//Distinct Prime Factors
-//Official Solution - O(N log log N)
-//By Alex Li
+// Distinct Prime Factors
+// Official Solution - O(N log log N)
+// By Alex Li
 
 #include <iostream>
 using namespace std;
