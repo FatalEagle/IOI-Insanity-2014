@@ -1,0 +1,6 @@
+<essay> ::= <a> <b> <c> <d> <e>
+<a> ::= <a> <EOL> <a> | <a> <EOL> <b> | <a> <EOL> <c> | <a> <EOL> <d> | "abcd" <b>
+<b> ::= <a> <EOL> <b> | <a> <EOL> <c> | <a> <EOL> <d> | "abc" <c>
+<c> ::= <a> <EOL> <c> | <a> <EOL> <d> | "ab" <d>
+<d> ::= <a> <EOL> <d> | "a" <e>
+<e> ::= ""

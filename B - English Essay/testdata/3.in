@@ -15,10 +15,10 @@
 <preposition-phrase> ::= <preposition> " " <noun-phrase>
    <relative-clause> ::= <determiner> " " <verb-phrase>
               <noun> ::= cat | hat | mice | mouse
-              <verb> ::= am | are | is | eats | turn
+              <verb> ::= HAD " " BEEN
          <adjective> ::= hungry | smelly | cool | happy
             <adverb> ::= right | left | quickly | slowly
-           <pronoun> ::= I | me | you | it
+           <pronoun> ::= THEY | ME | YOU | IT
            <article> ::= the | a | an
        <preposition> ::= to | in | on | near
        <conjunction> ::= and | or | but
