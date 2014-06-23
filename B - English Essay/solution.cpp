@@ -3,13 +3,15 @@
 // By Alex Li
 
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <set>
+#include <sstream>
 #include <vector>
 using namespace std;
 
-const int INF = 0x3f3f3f3f;
+const int MOD = 1000000007;
 
 struct item_t {
   bool is_literal;
@@ -145,16 +147,17 @@ map<node_t*, int>::iterator it;
 set<node_t*> S;
 
 int best(node_t *n) {
-  if (n == NULL) return INF;
+  if (n == NULL) return -1;
   if (n->is_root) {
     if ((it = DP.find(n)) != DP.end()) return it->second;
-    if (S.count(n)) return INF;
+    if (S.count(n)) return -1;
   }
   int ret;
   if (n->lchild != NULL) { //if n is not a leaf
     if (n->is_root) S.insert(n);
-    ret = min(best(n->lchild), best(n->rchild));
+    int L = best(n->lchild), R = best(n->rchild);
     if (n->is_root) S.erase(n);
+    ret = (L == -1 || R == -1) ? max(L, R) : min(L, R);
   } else {
     ret = 0;
     vector<item_t>::iterator it2 = n->items.begin();
@@ -167,20 +170,23 @@ int best(node_t *n) {
           continue;
         }
         if (n->is_root) S.insert(n);
-        ret += best(defs[it2->value]);
+        int val = best(defs[it2->value]);
         if (n->is_root) S.erase(n);
-        if (ret >= INF) break;
+        if (val == -1) { ret = -1; break; }
+        ret = (ret + val) % MOD;
       }
     }
   }
+  if (ret >= MOD) ret %= MOD;
   if (n->is_root) DP[n] = ret;
   return ret;
 }
 
 int main() {
+  //freopen("testdata/19.in",  "r", stdin);
+  //freopen("testdata/19.out", "w", stdout);
   parse_input();
   build_definitions();
-  int ans = best(defs["essay"]);
-  cout << (ans < INF ? ans : -1) << endl;
+  cout << best(defs["essay"]) << endl;
   return 0;
 }
