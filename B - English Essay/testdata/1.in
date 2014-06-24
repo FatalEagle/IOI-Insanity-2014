@@ -1,5 +1,0 @@
-  <whole-number> ::= "0" | <natural-number>
-<natural-number> ::= <non-zero-digit> { <digit> }
-<non-zero-digit> ::= "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-         <digit> ::= "0" | <non-zero-digit>
-         <essay> ::= <whole-number>
