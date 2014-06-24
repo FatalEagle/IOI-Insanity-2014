@@ -1,4 +1,4 @@
-<h3>Maniacal Midsummer Marathon 2014, by TL, AL, JJ</h3>
+<h3>Maniacal Midsummer Marathon 2014 by TL, AL, JJ</h3>
 <h2>Problem B: English Essay</h2>
 
 <p>The school year is finally coming to a close, and you're dying to get out of school. However, there's still one subject that has yet to be fully taken care of &mdash; English. Writing essays is the bane of your existence, but you still have a final essay due that's worth 30% of your final grade. Your English mark is currently at a whopping 64%, and all that really matters now is passing (with a 50%). Luckily, your English teacher also happens to be the CompSci teacher, so some strings may be pulled to save your butt.</p>
@@ -7,7 +7,7 @@
 
 <p>So you ask your teacher, "hey mister, what exactly <i>is</i> a formal essay format?". In response, he asks you what you've even been doing the entire year in his class, but you do not succumb to his begging of the question. Finally, he gives in to you because he is impressed by how much you care about this assignment. Being a CompSci teacher, he decides to send you the formal definition of an English essay in <a href="http://en.wikipedia.org/wiki/Backus%E2%80%93Naur_Form">Backus-Naur Form</a> (BNF).</p>
 
-<p>In BNF, a language or article can be described using a list of symbol definitions. Each definition associates a symbol (represented by an identifier in angle-brackets <code>&lt;&gt;</code>) to an expression. <b>An expression is any concatenation and/or unions of other symbols, literal values, and expressions.</b></p>
+<p>In BNF, a language or article can be described using a list of symbol definitions. Each definition associates a symbol (represented by an identifier in angle-brackets <code>&lt;&gt;</code>) to an expression. <b>An expression is any combination of concatenations and/or unions of symbols, literal values, and expressions.</b></p>
 
 <p>For example, a BNF definition for any integer is as follows:</p>
 <pre style="word-break: break-word;">
@@ -17,7 +17,7 @@
          &lt;digit&gt; ::= 0 | &lt;non-zero-digit&gt;
 </pre>
 
-<p>In the above example: "<code>::=</code>" indicates a definition. "<code>|</code>" indicates that either the expression on the left or the expression on the right side of the sign can be matched. An expression in curly brackets <code>{}</code> indicates that it may be matched 0 or more times. An expression in square brackets <code>[]</code> indicates that it may be matched 0 or 1 times. Note that quotations marks around literal values are optional. However, literals tokens that not enclosed in quotations are assumed to not have any leading, trailing, or joining spaces. That means the definition:</p>
+<p>In the above example: "<code>::=</code>" indicates a definition. "<code>|</code>" denotes a union, indicating that either the expression on the left or the expression on the right side of the sign can be matched. An expression in curly brackets <code>{}</code> indicates that it may be matched 0 or more times. An expression in square brackets <code>[]</code> indicates that it may be matched 0 or 1 times. Note that quotations marks around literal values are optional. However, literals tokens that not enclosed in quotations are assumed to not have any leading, trailing, or joining spaces. That means the definition:</p>
 <pre style="margin-left: 15px">
 &lt;foo&gt; ::= ab | a "b" | "a"  b | "ab"
 </pre>

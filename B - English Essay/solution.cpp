@@ -3,11 +3,9 @@
 // By Alex Li
 
 #include <algorithm>
-#include <fstream>
 #include <iostream>
 #include <map>
 #include <set>
-#include <sstream>
 #include <vector>
 using namespace std;
 
@@ -183,8 +181,6 @@ int best(node_t *n) {
 }
 
 int main() {
-  //freopen("testdata/19.in",  "r", stdin);
-  //freopen("testdata/19.out", "w", stdout);
   parse_input();
   build_definitions();
   cout << best(defs["essay"]) << endl;

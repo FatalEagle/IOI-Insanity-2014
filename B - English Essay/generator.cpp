@@ -1,5 +1,7 @@
-#include <fstream>
 #include <cstdio>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 #include <iostream>
 using namespace std;
 
@@ -85,6 +87,36 @@ Answer: 450 * 9999 + 450 * 9998 + ... + 450 * 1
   cout << '<' << b36(MAXN - 1) << "> ::= " << string(450, 'a') << "\n";
 }
 
+void gen14(int COLS = 2000, int LEN = 200) {
+/* Multiple connected components, joined by <essay>
+
+<essay> ::= <1>  <2>  <3>  <4>
+<1> ::= <10001> a <10002> a ... <10000 + COLS> times
+<10001> ::= a
+<10002> ::= a
+...
+<2> ::= <20001> a <20002> a ... <20000 + COLS> times
+<10001> ::= a
+<20002> ::= a
+...
+
+answer: 4*(2*COLS*LEN)
+      = 4*2*2000*200 = 3200000
+*/
+  freopen("testdata/14.in", "w", stdout);
+  cout << "<essay> ::= <1> <2> <3> <4>\n";
+  for (int i = 1; i <= 4; i++) {
+    cout << "<" << i << "> ::=";
+    for (int j = 1; j <= COLS; j++) {
+      cout << " <" << b36(i*10000 + j) << "> " << string(LEN, 'a');
+      cout << "\n";
+    }
+    cout << "\n";
+    for (int j = i*10000; j <= i*10000 + COLS; j++) {
+      cout << "<" << b36(j) << "> ::= " << string(LEN, 'a') << "\n";
+    }
+  }
+}
 
 void gen15() {
 /*
@@ -107,7 +139,7 @@ void gen15() {
   }
 }
 
-void gen_worst(string num, int SIZE) {
+void gen16(int SIZE = 850) {
 /*
 <essay> ::= <1>
 <1> ::= <1> | <2> | <3> | <4> | ... | <SIZE>
@@ -115,25 +147,95 @@ void gen_worst(string num, int SIZE) {
 ...
 <SIZE> ::= <1> | <2> | <3> | <4> | ... | <SIZE> | x
 */
-  freopen(("testdata/" + num + ".in").c_str(), "w", stdout);
+  freopen("testdata/16.in", "w", stdout);
   cout << "<essay> ::= <1>\n";
   for (int i = 1; i <= SIZE; i++) {
     cout << "<" << b36(i) << "> ::=";
     for (int j = 1; j <= SIZE; j++) {
-      if (j > 1) cout << " | ";
+      if (j > 1) cout << " |";
       cout << " <" << b36(j) << ">";
-      if (j % 100 == 0) cout << "\n";
+      if (j % 101 == 0) cout << "\n";
     }
     cout << "\n";
   }
   cout << " | x\n";
 }
 
-void gen19() { gen_worst("19", 500); }
-void gen20() { gen_worst("20", 1000); }
+void gen17(int SIZE = 9000, int COLS = 50) {
+/*
+<essay> ::= <1>
+<1> ::= <2> x | <3> x | <4> x | <5> x ... (up to <1 + COLS> times)
+<2> ::= <3> x | <4> x | <5> x | <6> x ... (up to <2 + COLS> times)
+...
+<SIZE-1> ::= <SIZE> x
+<SIZE> ::= x
+
+answer = (SIZE / COLS + 1) % MOD = 1000000007
+
+for SIZE = 9000, COLS = 50:
+  answer = 9000 / 50 + 1 = 181
+*/
+  freopen("testdata/17.in", "w", stdout);
+  cout << "<essay> ::= <1>\n";
+  for (int i = 1; i < SIZE; i++) {
+    cout << "<" << b36(i) << "> ::=";
+    for (int j = i + 1; j <= min(i + COLS, SIZE); j++) {
+      if (j > i + 1) cout << " |";
+      cout << " <" << b36(j) << "> x";
+    }
+    cout << "\n";
+  }
+  cout << "<" << b36(SIZE) << "> ::= x\n";
+}
+
+void gen18(int SIZE = 1000) {
+/*
+<essay> ::= <1>
+<1> ::= <2> <2> <2> <2> ... (1000 times)
+<2> ::= <3> <3> <3> <3> ... (1000 times)
+...
+<999> ::= <1000> <1000> ... (1000 times)
+<1000> ::= "a"
+
+answer = 1000^999 mod 1000000007
+       = 247524702 (according to WolframAlpha)
+*/
+  freopen("testdata/18.in", "w", stdout);
+  cout << "<essay> ::= <1>\n";
+  for (int i = 1; i < SIZE; i++) {
+    cout << "<" << b36(i) << "> ::=";
+    for (int j = 1; j <= SIZE; j++) {
+      cout << " <" << b36(i + 1) << ">";
+      if (j % 101 == 0) cout << "\n";
+    }
+    cout << "\n";
+  }
+  cout << "<" << b36(1000) << "> ::= a\n";
+}
+
+void gen_rand(string num, int SIZE = 9999) {
+  srand(time(0));
+  //each line has random symbols and |'s'
+  freopen(("testdata/" + num + ".in").c_str(), "w", stdout);
+  for (int i = 1; i <= SIZE; i++) {
+    string line;
+    while (line.size() < 495) {
+      if (rand() % 2) { //literal
+        line += " aaaaa";
+      } else {
+        if (rand() % 2) { //AND
+          line += " <" + b36(rand() % SIZE + 1) + ">";
+        } else if (!line.empty()) { //OR
+          line += " | <" + b36(rand() % SIZE + 1) + ">";
+        }
+      }
+    }
+    cout << "<" << b36(i) << "> ::=" << line << "\n";
+  }
+  cout << "<essay> ::= <1>\n";
+}
 
 int main() {
-  gen19();
-  gen20();
+  gen_rand("20");
   return 0;
 }
