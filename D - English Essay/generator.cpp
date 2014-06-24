@@ -139,56 +139,7 @@ void gen15() {
   }
 }
 
-void gen16(int SIZE = 850) {
-/*
-<essay> ::= <1>
-<1> ::= <1> | <2> | <3> | <4> | ... | <SIZE>
-<2> ::= <1> | <2> | <3> | <4> | ... | <SIZE>
-...
-<SIZE> ::= <1> | <2> | <3> | <4> | ... | <SIZE> | x
-*/
-  freopen("testdata/16.in", "w", stdout);
-  cout << "<essay> ::= <1>\n";
-  for (int i = 1; i <= SIZE; i++) {
-    cout << "<" << b36(i) << "> ::=";
-    for (int j = 1; j <= SIZE; j++) {
-      if (j > 1) cout << " |";
-      cout << " <" << b36(j) << ">";
-      if (j % 101 == 0) cout << "\n";
-    }
-    cout << "\n";
-  }
-  cout << " | x\n";
-}
-
-void gen17(int SIZE = 9000, int COLS = 50) {
-/*
-<essay> ::= <1>
-<1> ::= <2> x | <3> x | <4> x | <5> x ... (up to <1 + COLS> times)
-<2> ::= <3> x | <4> x | <5> x | <6> x ... (up to <2 + COLS> times)
-...
-<SIZE-1> ::= <SIZE> x
-<SIZE> ::= x
-
-answer = (SIZE / COLS + 1) % MOD = 1000000007
-
-for SIZE = 9000, COLS = 50:
-  answer = 9000 / 50 + 1 = 181
-*/
-  freopen("testdata/17.in", "w", stdout);
-  cout << "<essay> ::= <1>\n";
-  for (int i = 1; i < SIZE; i++) {
-    cout << "<" << b36(i) << "> ::=";
-    for (int j = i + 1; j <= min(i + COLS, SIZE); j++) {
-      if (j > i + 1) cout << " |";
-      cout << " <" << b36(j) << "> x";
-    }
-    cout << "\n";
-  }
-  cout << "<" << b36(SIZE) << "> ::= x\n";
-}
-
-void gen18(int SIZE = 1000) {
+void gen16(int SIZE = 1000) {
 /*
 <essay> ::= <1>
 <1> ::= <2> <2> <2> <2> ... (1000 times)
@@ -200,7 +151,7 @@ void gen18(int SIZE = 1000) {
 answer = 1000^999 mod 1000000007
        = 247524702 (according to WolframAlpha)
 */
-  freopen("testdata/18.in", "w", stdout);
+  freopen("testdata/16.in", "w", stdout);
   cout << "<essay> ::= <1>\n";
   for (int i = 1; i < SIZE; i++) {
     cout << "<" << b36(i) << "> ::=";
@@ -235,7 +186,59 @@ void gen_rand(string num, int SIZE = 9999) {
   cout << "<essay> ::= <1>\n";
 }
 
+void gen17() { gen_rand("17"); }
+void gen18() { gen_rand("18"); }
+
+void gen19(int SIZE = 9000, int COLS = 50) {
+/*
+<essay> ::= <1>
+<1> ::= <2> x | <3> x | <4> x | <5> x ... (up to <1 + COLS> times)
+<2> ::= <3> x | <4> x | <5> x | <6> x ... (up to <2 + COLS> times)
+...
+<SIZE-1> ::= <SIZE> x
+<SIZE> ::= x
+
+answer = (SIZE / COLS + 1) % MOD = 1000000007
+
+for SIZE = 9000, COLS = 50:
+  answer = 9000 / 50 + 1 = 181
+*/
+  freopen("testdata/19.in", "w", stdout);
+  cout << "<essay> ::= <1>\n";
+  for (int i = 1; i < SIZE; i++) {
+    cout << "<" << b36(i) << "> ::=";
+    for (int j = i + 1; j <= min(i + COLS, SIZE); j++) {
+      if (j > i + 1) cout << " |";
+      cout << " <" << b36(j) << "> x";
+    }
+    cout << "\n";
+  }
+  cout << "<" << b36(SIZE) << "> ::= x\n";
+}
+
+void gen20(int SIZE = 850) {
+/*
+<essay> ::= <1>
+<1> ::= <1> | <2> | <3> | <4> | ... | <SIZE>
+<2> ::= <1> | <2> | <3> | <4> | ... | <SIZE>
+...
+<SIZE> ::= <1> | <2> | <3> | <4> | ... | <SIZE> | x
+*/
+  freopen("testdata/20.in", "w", stdout);
+  cout << "<essay> ::= <1>\n";
+  for (int i = 1; i <= SIZE; i++) {
+    cout << "<" << b36(i) << "> ::=";
+    for (int j = 1; j <= SIZE; j++) {
+      if (j > 1) cout << " |";
+      cout << " <" << b36(j) << ">";
+      if (j % 101 == 0) cout << "\n";
+    }
+    cout << "\n";
+  }
+  cout << " | x\n";
+}
+
 int main() {
-  gen_rand("20");
+  gen20();
   return 0;
 }
