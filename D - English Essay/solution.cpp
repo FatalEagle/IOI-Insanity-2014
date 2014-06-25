@@ -2,6 +2,9 @@
 // Official Solution - O(N)
 // By Alex Li
 
+#define map unordered_map
+#define set unordered_set
+
 #include <algorithm>
 #include <iostream>
 #include <map>
@@ -11,33 +14,10 @@ using namespace std;
 
 const int MOD = 1000000007;
 
-struct item_t {
-  bool is_literal;
-  string value;
+vector<string> toks; //input tokens
 
-  item_t(const string &s) {
-    if (s[0] == '<') {//symbol
-      value = s.substr(1, s.size() - 2);
-      is_literal = false;
-    } else {
-      value = s;
-      is_literal = true;
-    }
-  }
-};
-
-struct node_t {
-  node_t *lchild, *rchild;  
-  vector<item_t> items; //only for leaf nodes
-  bool is_root;
-
-  node_t(node_t *l = 0, node_t *r = 0):
-    lchild(l), rchild(r), is_root(0) {}
-};
-
-vector<string> toks;
-
-void parse_input() {
+//parse input into tokens, placing the results in toks
+void tokenize_input() {
   //read input and tokenize lines
   string s;
   vector<string> tmp;
@@ -102,87 +82,89 @@ void parse_input() {
   }
 }
 
-map<string, node_t*> defs;
+//each concat_t is a pair<value, isLiteral>
+//if isLiteral: value is the length of the literal
+//   otherwise: value is the ID of the symbol
+typedef pair<int, bool> concat_t;
+typedef vector<concat_t> branch_t;
+typedef vector<branch_t> definition_t;
 
-//last index of an OR sign in [lo, hi)
-int find_OR(int lo, int hi) {
-  while (--hi >= lo && hi >= 0)
-    if (toks[hi] == "|") return hi;
-  return -1;
+int ndefs = 0;
+definition_t defs[10001]; //definitions
+
+map<string, int> ID; //IDs of symbol name
+
+inline int getID(const string &s) {
+  static map<string, int>::iterator ID_it;
+  if ((ID_it = ID.find(s)) == ID.end())
+    return ID[s] = ndefs++;
+  return ID_it->second;
 }
 
-//build expression tree using [lo, hi) of the tokens list
-node_t* build_tree(int lo, int hi) {
-  if (lo >= hi) return NULL;
-  int idx = find_OR(lo, hi);
-  if (idx == -1) { //base case - leaf node
-    node_t *n = new node_t();
-    for (int i = lo; i < hi; i++)
-      n->items.push_back(item_t(toks[i]));
-    return n;
+//creates definition from [lo, hi) in the toks vector
+void add_definition(definition_t &def, int lo, int hi) {
+  def.push_back(branch_t());
+  for (int i = lo; i < hi; i++) {
+    if (toks[i] == "|") {
+      def.push_back(branch_t());
+    } else if (toks[i] == "<EOL>") {
+      def.back().push_back(make_pair(1, true));
+    } else if (toks[i][0] == '<') { //symbol
+      def.back().push_back(
+        make_pair(getID(toks[i]), false));
+    } else { //literal
+      def.back().push_back(
+        make_pair(toks[i].length(), true));
+    }
   }
-  return new node_t(build_tree(lo, idx),
-                    build_tree(idx + 1, hi));
 }
 
-void build_definitions() {
+void add_definitions() {
   for (int i = 1, hi; i < toks.size(); i++) {
     if (toks[i] == "::=") {
       vector<string>::iterator it;
       it = find(toks.begin() + i + 1, toks.end(), "::=");
       if (it == toks.end()) hi = toks.size();
       else hi = it - toks.begin() - 1;
-      node_t *n = build_tree(i + 1, hi);
-      n->is_root = true;
-      defs[toks[i-1].substr(1, toks[i-1].size() - 2)] = n;
+      add_definition(defs[getID(toks[i - 1])], i + 1, hi);
       i = hi;
     }
   }
 }
 
-map<node_t*, int> DP;
-map<node_t*, int>::iterator it;
-set<node_t*> S;
+int DP[10001];
+bool done[10001], S[10001];
 
-int best(node_t *n) {
-  if (n == NULL) return -1;
-  if (n->is_root) {
-    if ((it = DP.find(n)) != DP.end()) return it->second;
-    if (S.count(n)) return -1;
-  }
-  int ret;
-  if (n->lchild != NULL) { //if n is not a leaf
-    if (n->is_root) S.insert(n);
-    int L = best(n->lchild), R = best(n->rchild);
-    if (n->is_root) S.erase(n);
-    ret = (L == -1 || R == -1) ? max(L, R) : min(L, R);
-  } else {
-    ret = 0;
-    vector<item_t>::iterator it2 = n->items.begin();
-    for (; it2 != n->items.end(); ++it2) {
-      if (it2->is_literal) {
-        ret += it2->value.length();
+int best(int id) {
+  if (done[id]) return DP[id];
+  if (S[id]) return -1;
+  int ret = -1;
+  definition_t::iterator it = defs[id].begin();
+  for (; it != defs[id].end(); it++) { //for all defs
+    int curr = 0;
+    branch_t::iterator it2 = it->begin();
+    for (; it2 != it->end(); it2++) { //for all branches
+      if (it2->second) { //if isLiteral
+        curr += it2->first; //+= length
       } else {
-        if (it2->value == "EOL") {
-          ret++;
-          continue;
-        }
-        if (n->is_root) S.insert(n);
-        int val = best(defs[it2->value]);
-        if (n->is_root) S.erase(n);
-        if (val == -1) { ret = -1; break; }
-        ret = (ret + val) % MOD;
+        S[id] = true;
+        int x = best(it2->first);
+        S[id] = false;
+        if (x == -1) { curr = -1; break; }
+        curr = (curr + x) % MOD;
       }
     }
+    if (curr == -1) continue;
+    if (ret == -1 || curr < ret) ret = curr;
   }
-  if (ret >= MOD) ret %= MOD;
-  if (n->is_root) DP[n] = ret;
-  return ret;
+  done[id] = true;
+  return DP[id] = ret;
 }
 
 int main() {
-  parse_input();
-  build_definitions();
-  cout << best(defs["essay"]) << endl;
+  cin.sync_with_stdio(0); cin.tie(0);
+  tokenize_input();
+  add_definitions();
+  cout << best(ID["<essay>"]) << endl;
   return 0;
 }
