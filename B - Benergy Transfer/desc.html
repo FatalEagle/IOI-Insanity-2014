@@ -7,7 +7,44 @@
 
 <p>While Ben was probably referring to his ability to solve physics problems in 100000 dimensions, the universe had heard this statement and was not impressed. That night while Ben was still in his dreams, the fabric of space-time in his realm had transfered him to <var>N</var>-D Land (where the number of dimensions <var>N</var> &le; 100000, as Ben boasted he could handle). After waking up, Ben finds himself on a rocket-ship hurdling through space.</p>
 
-<p>The first thing he noticed was that everything around him is extremely&hellip;weird. He was able to glide around the ship in so many miraculous directions that he never thought existed. Just as his puny 3D brain was busy being overwhelmed by the new change of universes, a series of loud beeps from the front of the ship caught his attention. Approaching the dashboard, he saw the flashing message: "ENERGY LEVEL: CRITICALLY LOW". Ben looked out the window and noticed nothing but pitch darkness. After getting the Newton's first law question wrong on his physics test, he learned that a constantly moving object will not stop unless acted on by any external, unbalanced forces. That means, Ben's ship is bound to go on forever until it gets absorbed by a star, torn apart by a black hole, or demolished by a planet, space junk, or whatever obstacles occupy the peculiar universe. His ship's energy will soon run out, so there is no chance of him turning it around when these things happen. He'll just have to accept his sad fate.</p>
+<style type="text/css">
+#flashing-message {
+  color: red;
+  font-weight: bold;
+
+  -moz-animation-duration: 500ms;
+  -moz-animation-name: blink;
+  -moz-animation-iteration-count: infinite;
+  -moz-animation-direction: alternate;
+  
+  -webkit-animation-duration: 500ms;
+  -webkit-animation-name: blink;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+  
+  animation-duration: 500ms;
+  animation-name: blink;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@-moz-keyframes blink {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@-webkit-keyframes blink {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes blink {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+</style>
+
+<p>The first thing he noticed was that everything around him is extremely&hellip;weird. He was able to glide around the ship in so many miraculous directions that he never thought existed. Just as his puny 3D brain was busy being overwhelmed by the new change of universes, a series of loud beeps from the front of the ship caught his attention. Approaching the dashboard, he saw the flashing message: <span id="flashing-message">ENERGY LEVEL: CRITICALLY LOW</span>. Ben looked out the window and noticed nothing but pitch darkness. After getting the Newton's first law question wrong on his physics test, he learned that a constantly moving object will not stop unless acted on by any external, unbalanced forces. That means, Ben's ship is bound to go on forever until it gets absorbed by a star, torn apart by a black hole, or demolished by a planet, space junk, or whatever obstacles occupy the peculiar universe. His ship's energy will soon run out, so there is no chance of him turning it around when these things happen. He'll just have to accept his sad fate.</p>
 
 "How unfortunate", he thought to himself, "that such a brilliant young physicist like me shall perish in the abyss of this unfamiliar world." He let out a sigh as he stared out of the spaceship window into the darkness of outer space.</p>
 
@@ -31,9 +68,9 @@ Each number in the input will be between &minus;10<sup>6</sup> and 10<sup>6</sup
 </p>
 
 <h3>Output Format</h3>
-<p>Output a single real number <var>t</var> &ndash; the time at which the Euclidean distance between Ben's spaceship and the star will be as small as possible.<br/>
-If there are more than one such time, output the <i>smallest</i> value of <var>t</var> &ge; 0 such that Ben and the star's Euclidean distance will be minimized.<br/>
-It is guaranteed that this number will be between 0 and 10<sup>9</sup>. Output <var>t</var> accurate to &pm;10<sup>&minus;5</sup> (5 digits after the decimal).</p>
+<p>Output a single nonnegative real number <var>t</var> &ndash; the time at which the Euclidean distance between Ben and the star will be minimized.<br/>
+If the time is not unique, output the <i>smallest</i> value of <var>t</var> &ge; 0 such that Ben and the star's Euclidean distance will be minimized.<br/>
+Your output will be considered correct if it is accurate to &pm;10<sup>&minus;5</sup> (5 digits after the decimal).</p>
 
 <h3>Sample Input 1</h3>
 <pre>
@@ -49,8 +86,8 @@ It is guaranteed that this number will be between 0 and 10<sup>9</sup>. Output <
 2.5
 </pre>
 
-<h3>Explanation 1</h3>
-<p>In this example, Ben happens to have been transferred to 2D land. Ben starts out at (0, 0) and the star starts out at (5, 0). Every unit of time, Ben moves 1 unit in the positive x-direction and 1 unit in the positive y-direction. Every unit of time, the star moves by 2. in the positive y-direction. Ben performs the energy transfer at <var>t</var> = 2.5, when the ship will be at (2.5, 2.5) and the star will be at (5, 5). This is the closest they'll ever be, with a distance of &radic;((5 &minus; 2.5)<sup>2</sup> + (5 &minus; 2.5)<sup>2</sup>) &approx; 3.53553. This is depicted in the figure below.</p>
+<h3>Explanation for Sample 1</h3>
+<p>In this example, Ben happens to have been transferred to 2D land. Ben starts out at (0, 0) and the star starts out at (5, 0). Every unit of time, Ben moves 1 unit in the positive x-direction and 1 unit in the positive y-direction. Every unit of time, the star moves by 2 in the positive y-direction. Ben performs the energy transfer at <var>t</var> = 2.5, when the ship will be at (2.5, 2.5) and the star will be at (5, 5). This is the closest they'll ever be, with a distance of &radic;((5 &minus; 2.5)<sup>2</sup> + (5 &minus; 2.5)<sup>2</sup>) &approx; 3.53553. The scenario is depicted in the figure below.</p>
 
 <p align="left"><img src="mmm14b.png" alt="" width="1000px"/></p>
 
@@ -68,5 +105,5 @@ It is guaranteed that this number will be between 0 and 10<sup>9</sup>. Output <
 0
 </pre>
 
-<h3>Explanation 2</h3>
+<h3>Explanation for Sample 2</h3>
 <p>In this example, Ben has been transferred to 4D land. He is located at (0, 0, 0, 0) and the star is located at (0, 0, 0, 1). Every second, Ben and the star will both move &minus;1 in the 4th dimension. This means that Ben and the star will forever be 1 unit of distance apart, so he might as well make the energy transfer immediately, at <var>t</var> = 0.</p>
