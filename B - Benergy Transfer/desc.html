@@ -1,0 +1,72 @@
+<h3>Maniacal Midsummer Marathon 2014 by TL, AL, JJ</h3>
+<h2>Problem B: Benergy Transfer</h2>
+
+<p>It is not widely known, but outside of playing Hearthstone and watching NGNL, Ben is actually a quantum mechanics expert. He is very interested in string theory, but he heard that in order for string theory to be mathematically consistent, the concept of more than just 3 spacial dimensions must be introduced. While fooling around on Wikipedia all day (his primary research routine), he discovered that "flat space string theories are 26-dimensional in the bosonic case while superstring and M-theories turn out to involve 10 or 11 dimensions for flat solutions." Whatever that meant, Ben read it and was in hysterics.</p>
+
+<p>"HA", he exclaimed. "Physicists are such noobs these days. <i>10</i> dimensions? <i>26</i> dimensions? How about <b>100000 dimensions</b>. Ain't nothing I can't handle."</p>
+
+<p>While Ben was probably referring to his ability to solve physics problems in 100000 dimensions, the universe had heard this statement and was not impressed. That night while Ben was still in his dreams, the fabric of space-time in his realm had transfered him to <var>N</var>-D Land (where the number of dimensions <var>N</var> &le; 100000, as Ben boasted he could handle). After waking up, Ben finds himself on a rocket-ship hurdling through space.</p>
+
+<p>The first thing he noticed was that everything around him is extremely&hellip;weird. He was able to glide around the ship in so many miraculous directions that he never thought existed. Just as his puny 3D brain was busy being overwhelmed by the new change of universes, a series of loud beeps from the front of the ship caught his attention. Approaching the dashboard, he saw the flashing message: "ENERGY LEVEL: CRITICALLY LOW". Ben looked out the window and noticed nothing but pitch darkness. After getting the Newton's first law question wrong on his physics test, he learned that a constantly moving object will not stop unless acted on by any external, unbalanced forces. That means, Ben's ship is bound to go on forever until it gets absorbed by a star, torn apart by a black hole, or demolished by a planet, space junk, or whatever obstacles occupy the peculiar universe. His ship's energy will soon run out, so there is no chance of him turning it around when these things happen. He'll just have to accept his sad fate.</p>
+
+"How unfortunate", he thought to himself, "that such a brilliant young physicist like me shall perish in the abyss of this unfamiliar world." He let out a sigh as he stared out of the spaceship window into the darkness of outer space.</p>
+
+<p>But wait! Just as he was about to give up hope, he noticed a faint glow in the distance. Alas &ndash; it's a star! But&hellip; why is it moving so quickly!?! Ah yes, that's when Ben remembered from one of his Wikipedia readings that this is probably a <a href="http://en.wikipedia.org/wiki/Stellar_kinematics#Hypervelocity_stars" target="_blank">hypervelocity star</a>, that is, a star moving so quickly that its velocity exceeds the escape velocity of its galaxy.</p>
+
+<p>"What massive amounts of energy must be involved with such a majestic cosmic entity", Ben thought to himself, "there is hope now!"</p>
+
+<p>After some digging through manuals, Ben discovered that, sure enough, his rocket-ship had integrated energy collection capabilities. The ship is able to capture the radiant and thermal energy of any nearby object &mdash; the closer the object, the more energy will be transfered over to the ship! The encounter with this star might be his only chance to repower ship, so Ben better make the absolute most out of the energy transfer or risk dying in this realm of a bajillion dimensions.</p>
+
+<p>In <var>N</var>-D Land, every point in space can be represented using a coordinate of <var>N</var> numbers (<var>x</var><sub>1</sub>, <var>x</var><sub>2</sub>, &hellip;, <var>x<sub>N</sub></var>). We shall let two such <var>N</var>-dimensional points <var>A</var> and <var>B</var> respectively represent the locations of Ben's ship and and the HV star at <var>t</var> = 0. Ben's velocity is represented by the vector <var>V<sub>A</sub></var> = (<var>dA</var><sub>1</sub>, <var>dA</var><sub>2</sub>, &hellip;, <var>dA<sub>N</sub></var>). This means that during every unit of time, the value <var>x<sub>i</sub></var> describing Ben's position in the <var>i</var>-th dimension will increase by <var>dA<sub>i</sub></var>. Similarly, the velocity of the star can be represented by the vector <var>V<sub>B</sub></var> = (<var>dB</var><sub>1</sub>, <var>dB</var><sub>2</sub>, &hellip;, <var>dB<sub>N</sub></var>).</p>
+
+<p>Knowing these pieces of information, Ben would like to find out just how close he is ever going to get to the star, and at what time he will get the closest. Please help him make the most of this energy transfer!</p>
+
+<h3>Input Format</h3>
+<p>The 1st line contains a single integer <var>N</var> (2 &le; <var>N</var> &le; 100000) , the number of dimensions.<br/>
+The 2nd line contains <var>N</var> integers, the coordinates of <var>A</var>, representing Ben's initial position at <var>t</var> = 0.<br/>
+The 3rd line contains <var>N</var> integers, the coordinates of <var>B</var>, representing the HV star's initial position at <var>t</var> = 0.<br/>
+The 4th line contains <var>N</var> integers, the velocity vector <var>V<sub>A</sub></var>, where the <var>i</var>-th integer represents the distance moved in the <var>i</var>-th coordinate of point <var>A</var> during each unit of time after <var>t</var> = 0.<br/>
+The 5th line contains <var>N</var> integers, the velocity vector <var>V<sub>B</sub></var>, where the <var>i</var>-th integer represents the distance moved in the <var>i</var>-th coordinate of point <var>B</var> during each unit of time after <var>t</var> = 0.<br/>
+Each number in the input will be between &minus;10<sup>6</sup> and 10<sup>6</sup>.
+</p>
+
+<h3>Output Format</h3>
+<p>Output a single real number <var>t</var> &ndash; the time at which the Euclidean distance between Ben's spaceship and the star will be as small as possible.<br/>
+If there are more than one such time, output the <i>smallest</i> value of <var>t</var> &ge; 0 such that Ben and the star's Euclidean distance will be minimized.<br/>
+It is guaranteed that this number will be between 0 and 10<sup>9</sup>. Output <var>t</var> accurate to &pm;10<sup>&minus;5</sup> (5 digits after the decimal).</p>
+
+<h3>Sample Input 1</h3>
+<pre>
+2
+0 0
+5 0
+1 1
+0 2
+</pre>
+
+<h3>Sample Output 1</h3>
+<pre>
+2.5
+</pre>
+
+<h3>Explanation 1</h3>
+<p>In this example, Ben happens to have been transferred to 2D land. Ben starts out at (0, 0) and the star starts out at (5, 0). Every unit of time, Ben moves 1 unit in the positive x-direction and 1 unit in the positive y-direction. Every unit of time, the star moves by 2. in the positive y-direction. Ben performs the energy transfer at <var>t</var> = 2.5, when the ship will be at (2.5, 2.5) and the star will be at (5, 5). This is the closest they'll ever be, with a distance of &radic;((5 &minus; 2.5)<sup>2</sup> + (5 &minus; 2.5)<sup>2</sup>) &approx; 3.53553. This is depicted in the figure below.</p>
+
+<p align="left"><img src="mmm14b.png" alt="" width="1000px"/></p>
+
+<h3>Sample Input 2</h3>
+<pre>
+4
+0 0 0 0
+0 0 0 1
+0 0 0 -1
+0 0 0 -1
+</pre>
+
+<h3>Sample Output 2</h3>
+<pre>
+0
+</pre>
+
+<h3>Explanation 2</h3>
+<p>In this example, Ben has been transferred to 4D land. He is located at (0, 0, 0, 0) and the star is located at (0, 0, 0, 1). Every second, Ben and the star will both move &minus;1 in the 4th dimension. This means that Ben and the star will forever be 1 unit of distance apart, so he might as well make the energy transfer immediately, at <var>t</var> = 0.</p>
