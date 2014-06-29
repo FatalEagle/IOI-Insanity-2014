@@ -98,7 +98,7 @@ OPEN 2
 </pre>
 
 <h3>Explanation</h3>
-<p>There are 10 floors in the building. The elevator moves at a rate of 3 floors per second. The elevator must stay open for at least 2 seconds every time it opens. There are 4 passengers, respectively arriving at times 0, 4, 5, and 6. The execution of the output commands are as outlined in the following table.</p>
+<p>There are 10 floors in the building. The elevator moves at a rate of 3 floors per second. The elevator must stay open for at least 2 seconds every time it opens. There are 4 passengers, respectively arriving at times 0, 2, 5, and 21. The execution of the output commands are as outlined in the following table.</p>
 
 <style type="text/css">
 .tg  { border-collapse:collapse; border-spacing:0;}
@@ -212,11 +212,11 @@ OPEN 2
 
 <p>In the above table: <b>A</b> means that the passenger has arrived and is waiting at their initial floor, and <b>E</b> means that the passenger is inside the elevator.</p>
 
-<p>Passenger 1 waits during the range [0, 7] for 8 seconds.<br/>
+<p>Passenger 1 waits during the range [0, 7] for a total of 8 seconds.<br/>
 Passenger 2 waits during the range [2, 11] for a total of 10 seconds.<br/>
 Passenger 3 waits during the range [5, 11] for a total of 7 seconds.<br/>
 Passenger 4 waits during the range [21, 25] for a total of 5 seconds.<br/>
-The average waiting time is (8 + 10 + 7 + 5)/4 = 7.5 seconds. Note that this may not be the best possible solution for this scenario.</p>
+The average waiting time is (8 + 10 + 7 + 5) &div; 4 = 7.5 seconds. Note that this may not be the best possible solution for this scenario.</p>
 
 <h3>Scoring</h3>
 <p>For each test case, let's say the average waiting time for passengers during your lift service is <var>X</var> seconds, and the average waiting time for friend's lift service is <var>Y</var> seconds.<br/>
@@ -233,7 +233,7 @@ Then, your score out of 100 for the test case will be:</p>
   </li>
   <li>otherwise:
     <ul>
-      <li>(<var>X</var> / <var>Y</var>)&times;100 rounded to the nearest integer, if <var>X</var> &lt; <var>Y</var>; and</li>
+      <li>(<var>X</var> &div; <var>Y</var>)&times;100 rounded to the nearest integer, if <var>X</var> &lt; <var>Y</var>; and</li>
       <li>100, if <var>X</var> &ge; <var>Y</var>.</li>
     </ul>
   </li>
