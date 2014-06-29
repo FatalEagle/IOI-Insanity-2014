@@ -18,13 +18,11 @@
 <p>Your program will have the following information before the challenge:</p>
 <ul>
 <li>There are <var>F</var> (1 &le; <var>F</var> &le; 1000) floors in the building being serviced, uniquely labeled with an integer from 1 to <var>N</var>.</li>
-<li>The elevator travels at a constant speed of <var>V</var> (1 &le; <var>V</var> &le; 20) floors per second. While the elevator is traveling, it may stop any floor either to remain idle, or to pick up/drop off passengers.</li>
 <li>The elevator may change directions at any time. The time it takes to change directions is negligible.</li>
-<li>The elevator may stop for as long as possible on a floor. Once it is stopped, the doors do <b>not</b> necessarily open. For example if there is a long time period where the are no passengers to be serviced, your program may just tell the elevator to idle on the ground floor with its doors closed.</li>
-<li>When the elevator is stopped on a floor, your program may send a command to <b>open</b> the doors. If you open the doors, standard regulations require the doors to stay open for at least <var>S</var> (1 &le; <var>S</var> &le; 20) seconds to allow passengers to safely get on or off. Since all of your people are bribed, you've made sure to tell them not to take more than <var>S</var> seconds. Thus, your program may send a command to close the doors any time after the <var>S</var> seconds have passed. The doors may be opened immediately after the elevator reaches a floor.</li>
-<li>After the doors close, the elevator doesn't necessarily have to move. It will just stay on a floor with its doors closed until it gets further instructions for moving, or to open its doors again.</li>
+<li>The elevator travels at a constant speed of <var>V</var> (0 &lt; <var>V</var> &le; 20, <var>V</var> is a real number) floors per second. While the elevator is traveling, it may stop at any floor, either to remain idle, or to pick up/drop off passengers.</li>
+<li>The elevator may stop for as long as possible on a floor. Standard regulations require for elevator doors to open for at least <var>S</var> (1 &le; <var>S</var> &le; 20, <var>S</var> is an integer) seconds each time. This means that if an elevator is told to stop for fewer than <var>S</var> seconds, it will simple remain idle with its doors closed, and no passengers may get on or off. Note that your passengers are bribed, so they will take no more than <var>S</var> total seconds to get on and off. They will never delay the door-close by hitting the door-open button or stand in the way of the sensors.</li>
 <li>There are <var>N</var> (1 &le; <var>N</var> &le; 10000) passengers that need to be serviced. The passengers are each uniquely labeled with an integer from 1 to <var>N</var>.</li>
-<li>The following (secret) information is known about the passengers you've bribed:
+<li>The following information is known about the passengers you've bribed:
     <ul>
       <li>At <var>t<sub>i</sub></var> seconds (0 &le; <var>t<sub>i</sub></var> &le; 1000000, <var>t<sub>i</sub></var> is an integer), passenger <var>i</var> (1 &le; <var>i</var> &le; <var>N</var>) will arrive at the elevator doors on floor <var>A<sub>i</sub></var> (1 &le; <var>A<sub>i</sub></var> &le; <var>F</var>).</li>
       <li>Passenger <var>i</var> would like to go to floor <var>B<sub>i</sub></var> (1 &le; <var>B<sub>i</sub></var> &le; <var>F</var>, <var>A<sub>i</sub></var> &ne; <var>B<sub>i</sub></var>).</li>
@@ -43,13 +41,13 @@ The <i>average waiting time</i> is the sum of the waiting times of all of the pa
 
 <h3>Input Format</h3>
 <p>
-The 1st line of input will contain three integers <var>F</var>, <var>V</var>, and <var>S</var>, respectively representing the number of floors in the building, the speed of the elevator, and the minimum time that the elevator door must stay open each time they open.<br/>
+The 1st line will contain the numbers <var>F</var>, <var>S</var>, and <var>V</var>, respectively representing the number of floors in the building, the minimum time that the elevator must open, and the speed of the elevator in floors/second. <var>F</var> and <var>S</var> will be integers, while <var>V</var> will be a real number.<br/>
 The 2nd line will contain the integer <var>N</var>, representing the number of passengers.<br/>
 The following <var>N</var> lines each contain three integers describing the request of a passenger. Namely, line <var>i</var> + 2 will contain the values <var>t<sub>i</sub></var>, <var>A<sub>i</sub></var>, and <var>B<sub>i</sub></var>, indicating that passenger <var>i</var> starts his or her wait at time <var>t<sub>i</sub></var> by the elevator doors on floor <var>A<sub>i</sub></var>, and would like to be taken to floor <var>B<sub>i</sub></var>.
 </p>
 
 <h3>Output Format</h3>
-<p>In order to control the elevator, you will first have to be familiar with a few commands of the elevator's system. They are the following:</p>
+<p>In order to control the elevator, you must first become familiar with the two commands of the elevator's system. They are the following:</p>
 
 <style type="text/css">
 #command-table {
@@ -65,17 +63,16 @@ The following <var>N</var> lines each contain three integers describing the requ
 </style>
 
 <table id="command-table">
-<tr><th>Command</th><th>Description</th></tr>
-<tr><td><pre>GO <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
-<tr><td><pre>OPEN <var>t</var></pre></td><td>Open the elevator doors for <var>t</var> seconds to allow passengers to get on or off at the floor it's currently on. The value of <var>t</var> must be greater than or equal to the minimum regulated time <var>S</var>. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
-<tr><td><pre>WAIT <var>t</var></pre></td><td>Make the elevator idle for <var>t</var> seconds on its current floor with its doors closed.</td></tr>
+<tr><th>Command</th><th>Format</th><th>Description</th></tr>
+<tr><td><pre>GO <var>b</var></pre></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
+<tr><td><pre>STOP <var>t</var></pre></td><td><pre>S <var>t</var></pre></td><td>If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 </table>
 
 <p>Each line of the output should describe an elevator command in one of the three formats listed above. The commands will be performed head to head (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
 
 <h3>Sample Input</h3>
 <pre>
-10 3 2
+10 2 3.0
 4
 0 2 5
 2 1 10
@@ -86,15 +83,15 @@ The following <var>N</var> lines each contain three integers describing the requ
 
 <h3>Sample Output</h3>
 <pre>
-OPEN 3
-GO 2
-OPEN 2
-GO 5
-OPEN 2
-GO 10
-OPEN 2
-WAIT 8
-OPEN 2
+S 3
+G 2
+S 2
+G 5
+S 2
+G 10
+S 11
+G 4
+S 2
 </pre>
 
 <h3>Explanation</h3>
@@ -120,7 +117,7 @@ OPEN 2
     <th class="tg-hgcj">1</th><th class="tg-hgcj">2</th><th class="tg-hgcj">3</th><th class="tg-hgcj">4</th>
   </tr>
   <tr>
-    <td class="tg-031e">0</td><td class="tg-031e" rowspan="3">OPEN 3</td>
+    <td class="tg-031e">0</td><td class="tg-031e" rowspan="3">STOP 3</td>
     <td class="tg-031e">The elevator is on floor 1. It opens for 3 seconds to wait for passenger 2.</td>
     <td class="tg-wsnc" rowspan="4">A</td><td class="tg-7h0m"></td><td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
@@ -129,7 +126,7 @@ OPEN 2
   </tr>
   <tr>
     <td class="tg-031e">2</td>
-    <td class="tg-031e">Passenger 2 arrives on floor 1, and immediately enters the elevator just before it closes.</td>
+    <td class="tg-031e">Passenger 2 arrives on floor 1, immediately entering the elevator just before it closes.</td>
     <td class="tg-p2e8" rowspan="10">E</td><td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
@@ -138,7 +135,7 @@ OPEN 2
     <td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
-    <td class="tg-031e">4</td><td class="tg-031e" rowspan="2">OPEN 2</td>
+    <td class="tg-031e">4</td><td class="tg-031e" rowspan="2">STOP 2</td>
     <td class="tg-031e">The elevator is on floor 2.&nbsp;It opens for 2 seconds, and the waiting passenger 1 enters.</td>
     <td class="tg-p2e8" rowspan="4">E</td>
     <td class="tg-wsnc" rowspan="3">A</td><td class="tg-7h0m"></td>
@@ -151,7 +148,7 @@ OPEN 2
     <td class="tg-031e">The elevator travels to floor 5 from floor 2 (3 floors total). Since its speed is 3 floors/second,<br>its total time to reach floor 5 will be 1 second.</td><td class="tg-7h0m"></td>
   </tr>
   <tr>
-    <td class="tg-031e">7</td><td class="tg-031e" rowspan="2">OPEN 2</td>
+    <td class="tg-031e">7</td><td class="tg-031e" rowspan="2">STOP 2</td>
     <td class="tg-031e">The elevator is on floor 5. It opens for 2 seconds. During this second, passenger 1 gets off.<br>Also, passenger 3 gets on.</td>
     <td class="tg-p2e8" rowspan="5">E</td><td class="tg-7h0m"></td>
   </tr>
@@ -167,24 +164,15 @@ OPEN 2
     <td class="tg-031e">10</td><td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
-    <td class="tg-031e">11</td><td class="tg-031e">OPEN 2</td>
-    <td class="tg-031e">The elevator is on floor 10. It opens for 2 seconds to allow both passengers 2 and 3 to get off.</td>
+    <td class="tg-031e">11</td>
+    <td class="tg-031e" rowspan="3">STOP 11</td>
+    <td class="tg-031e">The elevator is on floor 10. It opens for 11 seconds to allow both passengers 2 and 3 to get off.<br>Afterwards, the elevator idles to wait for passenger 4 to arrive at t = 21.</td>
     <td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
-    <td class="tg-031e">12</td>
-    <td class="tg-031e" rowspan="2">WAIT 8</td>
-    <td class="tg-031e">We idle the elevator for 8 seconds, waiting for passenger 4 to arrive on floor 10 at t = 21.<br>Alternatively, we could've just had the previous command keep the open the doors for 10 seconds.</td>
-    <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td><td class="tg-7h0m"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e">...</td><td class="tg-031e"></td><td class="tg-7h0m"></td>
-    <td class="tg-oj3y"></td><td class="tg-oj3y"></td><td class="tg-7h0m"></td>
-  </tr>
-  <tr>
-    <td class="tg-031e">20</td><td class="tg-031e" rowspan="2">OPEN 2</td>
-    <td class="tg-031e">Open the elevator a bit earlier to prevent the 2-second delay to stall passenger 4.</td>
-    <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td><td class="tg-7h0m"></td>
+    <td class="tg-031e">...</td>
+    <td class="tg-031e"></td><td class="tg-7h0m"></td><td class="tg-oj3y">
+    </td><td class="tg-oj3y"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
     <td class="tg-031e">21</td>
@@ -193,20 +181,23 @@ OPEN 2
     <td class="tg-p2e8" rowspan="4">E</td>
   </tr>
   <tr>
-    <td class="tg-031e">22</td><td class="tg-031e" rowspan="2">GO 4</td>
-    <td class="tg-031e">6 floors will take &lceil;(10 - 4) / 3&rceil; = 2 seconds to traverse.</td>
+    <td class="tg-031e">22</td>
+    <td class="tg-031e" rowspan="2">GO 4</td>
+    <td class="tg-031e">6 floors will take exactly &lceil;(10 - 4) / 3&rceil; = 2 seconds to traverse.</td>
     <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
   </tr>
   <tr>
     <td class="tg-031e">23</td><td class="tg-031e"></td><td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
   </tr>
   <tr>
-    <td class="tg-031e">24</td><td class="tg-031e" rowspan="2">OPEN 2</td>
+    <td class="tg-031e">24</td>
+    <td class="tg-031e" rowspan="2">STOP 2</td>
     <td class="tg-031e">The elevator doors open on floor 4. Passenger 4 exits immediately.</td>
     <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
   </tr>
   <tr>
-    <td class="tg-031e">25</td><td class="tg-031e"></td><td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
+    <td class="tg-031e">25</td>
+    <td class="tg-031e"></td><td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td><td class="tg-7h0m"></td>
   </tr>
 </table>
 
@@ -226,9 +217,8 @@ Then, your score out of 100 for the test case will be:</p>
   <li>0, if any of the following holds true:
     <ul>
       <li>The output format is incorrect, and does not follow one of the three formats listed above;</li>
-      <li>Not all passengers have an opportunity to get on and off the elevator to reach their destination;</li>
-      <li>You try to go to an invalid floor (not in the range of 1&hellip;<var>F</var>); or</li>
-      <li>You try to open the door for fewer than <var>S</var> seconds.</li>
+      <li>Not all passengers have an opportunity to get on and off the elevator to reach their destination; or</li>
+      <li>You try to go to an invalid floor (not in the range of 1&hellip;<var>F</var>)</li>
     </ul>
   </li>
   <li>otherwise:
