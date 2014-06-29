@@ -66,7 +66,7 @@ The following <var>N</var> lines each contain three integers describing the requ
 
 <table id="command-table">
 <tr><th>Command</th><th>Description</th></tr>
-<tr><td><pre>GO <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the value of <var>x</var> rounded up.</td></tr>
+<tr><td><pre>GO <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
 <tr><td><pre>OPEN <var>t</var></pre></td><td>Open the elevator doors for <var>t</var> seconds to allow passengers to get on or off at the floor it's currently on. The value of <var>t</var> must be greater than or equal to the minimum regulated time <var>S</var>. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 <tr><td><pre>WAIT <var>t</var></pre></td><td>Make the elevator idle for <var>t</var> seconds on its current floor with its doors closed.</td></tr>
 </table>
@@ -79,7 +79,7 @@ The following <var>N</var> lines each contain three integers describing the requ
 4
 0 2 5
 2 1 10
-5 5 10
+4 5 10
 21 10 4
 </pre>
 
@@ -98,7 +98,7 @@ OPEN 2
 </pre>
 
 <h3>Explanation</h3>
-<p>There are 10 floors in the building. The elevator moves at a rate of 3 floors per second. The elevator must stay open for at least 2 seconds every time it opens. There are 4 passengers, respectively arriving at times 0, 2, 5, and 21. The execution of the output commands are as outlined in the following table.</p>
+<p>There are 10 floors in the building. The elevator moves at a rate of 3 floors per second. The elevator must stay open for at least 2 seconds every time it opens. There are 4 passengers, respectively arriving at times 0, 2, 4, and 21. The execution of the output commands are as outlined in the following table.</p>
 
 <style type="text/css">
 .tg  { border-collapse:collapse; border-spacing:0;}
@@ -141,10 +141,10 @@ OPEN 2
     <td class="tg-031e">4</td><td class="tg-031e" rowspan="2">OPEN 2</td>
     <td class="tg-031e">The elevator is on floor 2.&nbsp;It opens for 2 seconds, and the waiting passenger 1 enters.</td>
     <td class="tg-p2e8" rowspan="4">E</td>
-    <td class="tg-7h0m"></td><td class="tg-7h0m"></td>
+    <td class="tg-wsnc" rowspan="3">A</td><td class="tg-7h0m"></td>
   </tr>
   <tr>
-    <td class="tg-031e">5</td><td class="tg-031e"></td><td class="tg-wsnc" rowspan="2">A</td><td class="tg-7h0m"></td>
+    <td class="tg-031e">5</td><td class="tg-031e"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
     <td class="tg-031e">6</td><td class="tg-031e">GO 5</td>
@@ -190,7 +190,7 @@ OPEN 2
     <td class="tg-031e">21</td>
     <td class="tg-031e">Passenger 4 arrives and enters immediately.</td>
     <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
-    <td class="tg-p2e8" rowspan="5">E</td>
+    <td class="tg-p2e8" rowspan="4">E</td>
   </tr>
   <tr>
     <td class="tg-031e">22</td><td class="tg-031e" rowspan="2">GO 4</td>
@@ -202,11 +202,11 @@ OPEN 2
   </tr>
   <tr>
     <td class="tg-031e">24</td><td class="tg-031e" rowspan="2">OPEN 2</td>
-    <td class="tg-031e">The elevator is on floor 4. Passenger 4 exits immediately.</td>
+    <td class="tg-031e">The elevator doors open on floor 4. Passenger 4 exits immediately.</td>
     <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
   </tr>
   <tr>
-    <td class="tg-031e">25</td><td class="tg-031e"></td><td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
+    <td class="tg-031e">25</td><td class="tg-031e"></td><td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
   </tr>
 </table>
 
@@ -214,9 +214,9 @@ OPEN 2
 
 <p>Passenger 1 waits during the range [0, 7] for a total of 8 seconds.<br/>
 Passenger 2 waits during the range [2, 11] for a total of 10 seconds.<br/>
-Passenger 3 waits during the range [5, 11] for a total of 7 seconds.<br/>
-Passenger 4 waits during the range [21, 25] for a total of 5 seconds.<br/>
-The average waiting time is (8 + 10 + 7 + 5) &div; 4 = 7.5 seconds. Note that this may not be the best possible solution for this scenario.</p>
+Passenger 3 waits during the range [4, 11] for a total of 8 seconds.<br/>
+Passenger 4 waits during the range [21, 24] for a total of 4 seconds.<br/>
+The average waiting time is (8 + 10 + 8 + 4) &div; 4 = 7.5 seconds. Note that this may not be the best possible solution for this scenario.</p>
 
 <h3>Scoring</h3>
 <p>For each test case, let's say the average waiting time for passengers during your lift service is <var>X</var> seconds, and the average waiting time for friend's lift service is <var>Y</var> seconds.<br/>
