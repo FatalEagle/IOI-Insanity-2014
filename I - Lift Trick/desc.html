@@ -9,7 +9,7 @@
 
 <p>That's when your entitled ass started boasting to him about easily being able to design a way better algorithm than whatever garbage his incompetent team can come up with. You quickly realize that this was a big mistake, because he actually challenged you to an elevator face-off. Being the lead engineer, he actually has the resources to pull this off. He claims that he'll give you a job at his firm if you manage to win or tie against him, but that you'll have to wax his hairy back if you lose. Being the sad, unemployed dweeb you are, living with your parents and eating Cheetos off your chest everyday, you have no choice but to accept his challenge to finally try and land yourself a job.</p>
 
-<p>The challenge is to write a program for the computer of the elevator in a building, such that <b>the average waiting time for passengers is minimized</b>. There will be cameras on each floor of the building to record the waiting times of passengers. First, he'll hook your algorithm up to run for a period of time and record the results. Then, he'll hook his own algorithm up to the elevator and record the results. In the end, the average waiting time of your service period and his service period will be compared.</p>
+<p>The challenge is to write a program for the computer of the elevator in a building, such that <b>the average waiting time for passengers is minimized</b>. There will be cameras on each floor of the building to record the waiting times of passengers. First, he'll hook your algorithm up to run for a period of time and record the results. Then, your friend will take the passenger data collected from your service period, enter it into his special elevator simulator software, and run his own company's algorithm on it. In the end, the average waiting time of your algorithm and his algorithm will be compared.</p>
 
 <p>After digging through some articles online, you discovered that - big surprise! - elevators systems actually do require quite a bit of complicated mathematical theory. There's no way you'll be able to learn it all in time. Just as you were heading out to buy some wax-paper, a dastardly thought suddenly goes through your mind &ndash; what if you rigged the challenge?</p>
 
@@ -64,8 +64,8 @@ The following <var>N</var> lines each contain three integers describing the requ
 
 <table id="command-table">
 <tr><th>Command</th><th>Format</th><th>Description</th></tr>
-<tr><td><pre>GO <var>b</var></pre></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
-<tr><td><pre>STOP <var>t</var></pre></td><td><pre>S <var>t</var></pre></td><td>If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
+<tr><td>GO <var>b</var></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
+<tr><td>STOP <var>t</var></td><td><pre>S <var>t</var></pre></td><td>If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 </table>
 
 <p>Each line of the output should describe an elevator command in one of the three formats listed above. The commands will be performed head to head (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
@@ -157,7 +157,7 @@ S 2
   </tr>
   <tr>
     <td class="tg-031e">9</td><td class="tg-031e" rowspan="2">GO 10</td>
-    <td class="tg-031e" rowspan="2">The elevator goes to floor 10 from floor 5. This takes &lceil;(10 - 5)/3&rceil; = 2 seconds.</td>
+    <td class="tg-031e" rowspan="2">The elevator goes to floor 10 from floor 5. This takes &lceil;(10 &minus; 5) / 3&rceil; = 2 seconds.</td>
     <td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
@@ -183,7 +183,7 @@ S 2
   <tr>
     <td class="tg-031e">22</td>
     <td class="tg-031e" rowspan="2">GO 4</td>
-    <td class="tg-031e">6 floors will take exactly &lceil;(10 - 4) / 3&rceil; = 2 seconds to traverse.</td>
+    <td class="tg-031e">6 floors will take &lceil;(10 &minus; 4) / 3&rceil; = 2 seconds to traverse.</td>
     <td class="tg-7h0m"></td><td class="tg-oj3y"></td><td class="tg-oj3y"></td>
   </tr>
   <tr>
@@ -207,10 +207,10 @@ S 2
 Passenger 2 waits during the range [2, 11] for a total of 10 seconds.<br/>
 Passenger 3 waits during the range [4, 11] for a total of 8 seconds.<br/>
 Passenger 4 waits during the range [21, 24] for a total of 4 seconds.<br/>
-The average waiting time is (8 + 10 + 8 + 4) &div; 4 = 7.5 seconds. Note that this may not be the best possible solution for this scenario.</p>
+The average waiting time is (8 + 10 + 8 + 4) / 4 = 7.5 seconds. Note that this may not be the best possible solution for this scenario.</p>
 
 <h3>Scoring</h3>
-<p>For each test case, let's say the average waiting time for passengers during your lift service is <var>X</var> seconds, and the average waiting time for friend's lift service is <var>Y</var> seconds.<br/>
+<p>For each test case, let's say the average waiting time for passengers during your lift service is <var>X</var> seconds, and the average waiting time for friend's algorithm is <var>Y</var> seconds.<br/>
 Then, your score out of 100 for the test case will be:</p>
 
 <ul>
@@ -223,7 +223,7 @@ Then, your score out of 100 for the test case will be:</p>
   </li>
   <li>otherwise:
     <ul>
-      <li>(<var>X</var> &div; <var>Y</var>)&times;100 rounded to the nearest integer, if <var>X</var> &lt; <var>Y</var>; and</li>
+      <li>(<var>X</var> / <var>Y</var>)&times;100 rounded to the nearest integer, if <var>X</var> &lt; <var>Y</var>; and</li>
       <li>100, if <var>X</var> &ge; <var>Y</var>.</li>
     </ul>
   </li>
