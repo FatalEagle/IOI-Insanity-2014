@@ -14,8 +14,8 @@ def LNDS(A):
           DP[i] = v
   return DP[len(A) - 1]
 
-A = raw_input()
-B = raw_input()
+A = int(raw_input())
+B = int(raw_input())
 X = 6
 ans = 0
 i = A

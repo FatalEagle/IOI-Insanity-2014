@@ -7,7 +7,7 @@
 
 <p>Some of these substations are just too wasteful, so it's time for a reform! You would like to pick out some subset of all of the substations in the entire city to keep for the long term. There is a catch: for any of the substations you wish to keep, you must keep all the substations that depend on it for electricity, directly or indirectly. More specifically, in order to keep a substation <var>i</var>, any substation <var>j</var> such that electricity can flow from <var>i</var> to <var>j</var> using any series of connected wires or substations, must also be kept.</p>
 
-<p>Just when you thought your new job couldn't get any harder, the tyrants from the EPA came over and complained that the maximum energy usage across your substations is too high, and will harm the environment. Every month, they will fine you <var>A</var> dollars for every megajoule of <var>E<sub>max</sub></var>, your maximum energy usage. The value of <var>E<sub>max</sub></var> for a set of substations is the maximum <var>E<sub>i</sub></var> across all <var>i</var> in the set. Therefore, your total monthly profit after the reform is the sum of all <var>P<sub>i</sub></var> values for the stations you choose to keep, subtract <var>A</var>&times;<var>E<sub>max</sub></var> across those stations.</p>
+<p>Just when you thought your new job couldn't get any harder, the tyrants from the EPA came over and complained that the maximum energy usage across your substations is too high, and will harm the environment. Every month, they will fine you <var>A</var> dollars for every megajoule of <var>E<sub>max</sub></var>, your maximum energy usage. The value of <var>E<sub>max</sub></var> for a set of substations is the maximum <var>E<sub>i</sub></var> across all <var>i</var> in the set. Therefore, your total monthly profit after the reform is the sum of all <var>P<sub>i</sub></var> values for the stations you choose to keep, subtract <var>A</var>&times;<var>E<sub>max</sub></var> across those stations. The fine per megajoule will be a nonnegative integer less than 10000.</p>
 
 <p>To save yourself from some headaches, you might as well write a program to determine the highest possible total monthly profit that you can obtain by keeping a subset of the power substations.</p>
 
@@ -45,6 +45,27 @@ The EPA fine will be $1&times;max(4, 1) = $4, so the total monthly profit is $12
 
 <h3>Sample Input 2</h3>
 <pre>
+4 4 1
+-1 1
+2 1
+-3 1
+4 1
+1 2
+2 3
+3 4
+4 1
+</pre>
+
+<h3>Sample Output 2</h3>
+<pre>
+1
+</pre>
+
+<h3>Explanation for Sample 2</h3>
+<p>As strange as it seems, this group of four substations have a cyclic dependency. You must take either all or none, so take them all for a profit of $1.</p>
+
+<h3>Sample Input 3</h3>
+<pre>
 3 3 8
 15 2
 -10 1
@@ -54,11 +75,11 @@ The EPA fine will be $1&times;max(4, 1) = $4, so the total monthly profit is $12
 1 3
 </pre>
 
-<h3>Sample Output 2</h3>
+<h3>Sample Output 3</h3>
 <pre>
 0
 </pre>
 
-<h3>Explanation for Sample 2</h3>
+<h3>Explanation for Sample 3</h3>
 <p>It is not profitable to keep any substation because the fine by the EPA would always be more than the profit obtainable from keeping any valid subset of substations.<br/>
 (With no functional substations anywhere, you should probably be heading to the bank to file bankruptcy for your company.)</p>

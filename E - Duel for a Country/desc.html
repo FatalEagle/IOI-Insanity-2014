@@ -1,0 +1,58 @@
+<h3>Maniacal Midsummer Marathon 2014 by TL, AL, JJ</h3>
+<h2>Problem E: Duel for a Country</h2>
+
+<p>Shiro is enthralled by the latest FPS (first person shooter) game in the Eastern Federation. A lot is riding on this game, so she is planning to snipe the other player, Izuna, for a decisive victory. Shiro plans to pull this off from a kilometre away, and Izuna is in a shelter, so this requires very advanced mathematical calculations. Shiro needs a special sequence of numbers, the <em>K-numbers</em> to accomplish her goal.</p>
+<p>The <em>K-numbers</em> numbers have an interesting property: if you write them in base 10, and you find that the representation is <var>d<sub>p</sub> &times; 10 <sup>p</sup> + d<sub>p - 1</sub> &times; 10 <sup>p - 1</sup> + &hellip; + d<sub>0</sub> &times; 10 <sup>0</sup></var> for decimal digits <var>d<sub>i</sub></var> (0 &le; <var>i</var> &le; <var>p</var>) and some nonnegative integer <var>p</var>, then there will be a subsequence of <var>{d<sub>p</sub>, d<sub>p - 1</sub>, &hellip;, d<sub>0</sub>}</var> that has a length of at least 6 and is in nondecreasing order. More formally, there exists a set <var>{c<sub>0</sub>, c<sub>1</sub>, &hellip;, c<sub>k</sub>}</var> where <var>k</var> &ge; 5 and 0 &le; <var>c<sub>i</sub></var> &le; <var>p</var> for every <var>i</var> such that 0 &le; <var>i</var> &le; <var>k</var> such that <var>c<sub>x</sub></var> &gt; <var>c<sub>x + 1</sub></var> and <var>d<sub>c<sub>x</sub></sub> &le; d<sub>c<sub>x + 1</sub></sub></var> for every <var>x</var> such that 0 &le; <var>x</var> &le; <var>k - 1</var>.</p>
+<p>Shiro needs all the <em>K-numbers</em> between <var>A</var> and <var>B</var> (1 &le; <var>A</var> &le; <var>B</var> &lt; 10<sup>18</sup>) to complete her calculations. In the time you need to compute all those numbers, she is sure that she can calculate the exact numbers in her head. Therefore, Shiro only needs you to determine the number of <em>K-numbers</em> that exist between <var>A</var> and <var>B</var> (to verify her calculations).</p>
+
+<h3>Input Format</h3>
+<p>
+The first line will have <var>A</var>.
+The second line will have <var>B</var>.
+You can assume that 30% of the time, Shiro will only give you <var>A</var> and <var>B</var> such that 1 &le; <var>A</var> &le; <var>B</var> &lt; 10<sup>7</sup>.
+</p>
+
+<h3>Output Format</h3>
+<p>A single integer, the number of <em>K-numbers</em> between <var>A</var> and <var>B</var> (inclusive).</p>
+
+<h3>Sample Input 1</h3>
+<pre>
+111111
+111131
+</pre>
+
+<h3>Sample Output 1</h3>
+<pre>
+17
+</pre>
+
+<h3>Explanation for Sample 1</h3>
+<p>The valid <em>K-numbers</em> are 111111, 111112, 111113, 111114, 111115, 111116, 111117, 111118, 111119, 111122, 111123, 111124, 111125, 111126, 111127, 111128, 111129.</p>
+
+<h3>Sample Input 2</h3>
+<pre>
+2454449
+2454455
+</pre>
+
+<h3>Sample Output 2</h3>
+<pre>
+2
+</pre>
+
+<h3>Explanation for Sample 2</h3>
+<p>The valid <em>K-numbers</em> are 2454449 and 2454455.</p>
+
+<h3>Sample Input 3</h3>
+<pre>
+1111111
+1111123
+</pre>
+
+<h3>Sample Output 3</h3>
+<pre>
+12
+</pre>
+
+<h3>Explanation for Sample 3</h3>
+<p>Note that 1111120 is not a <em>K-number</em>, but 1111121 is.</p>
