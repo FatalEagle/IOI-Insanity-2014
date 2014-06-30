@@ -1,4 +1,4 @@
-// Miruka
+// Kuuhaku Numbers
 // Official Solution - O(???)
 // By Timothy Li
 

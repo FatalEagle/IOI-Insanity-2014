@@ -1,4 +1,4 @@
-# Miruka
+# Kuuhaku Numbers
 # Brute Force Solution - O(???)
 # By Timothy Li
 
