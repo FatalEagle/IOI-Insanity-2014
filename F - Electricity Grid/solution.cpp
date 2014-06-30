@@ -1,4 +1,4 @@
-// Power Grid
+// Electricity Grid
 // Official Solution - O(???)
 // By Timothy Li
 
@@ -48,7 +48,7 @@ void add_edge(int u, int v, int f) {
 
 bool BFS() {
   memset(bad, 0, sizeof bad);
-  memset(level, 0x3f, sizeof level);
+  memset(level, INF, sizeof level);
   level[src] = 0;
   Q[head = 0] = src;
   tail = 1;
