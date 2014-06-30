@@ -1,19 +1,21 @@
 <h3>Maniacal Midsummer Marathon 2014 by TL, AL, JJ</h3>
-<h2>Problem E: Duel for a Country</h2>
+<h2>Problem E: Kuuhaku Numbers</h2>
 
-<p>Shiro is enthralled by the latest FPS (first person shooter) game in the Eastern Federation. A lot is riding on this game, so she is planning to snipe the other player, Izuna, for a decisive victory. Shiro plans to pull this off from a kilometre away, and Izuna is in a shelter, so this requires very advanced mathematical calculations. Shiro needs a special sequence of numbers, the <em>K-numbers</em> to accomplish her goal.</p>
-<p>The <em>K-numbers</em> numbers have an interesting property: if you write them in base 10, and you find that the representation is <var>d<sub>p</sub> &times; 10 <sup>p</sup> + d<sub>p - 1</sub> &times; 10 <sup>p - 1</sup> + &hellip; + d<sub>0</sub> &times; 10 <sup>0</sup></var> for decimal digits <var>d<sub>i</sub></var> (0 &le; <var>i</var> &le; <var>p</var>) and some nonnegative integer <var>p</var>, then there will be a subsequence of <var>{d<sub>p</sub>, d<sub>p - 1</sub>, &hellip;, d<sub>0</sub>}</var> that has a length of at least 6 and is in nondecreasing order. More formally, there exists a set <var>{c<sub>0</sub>, c<sub>1</sub>, &hellip;, c<sub>k</sub>}</var> where <var>k</var> &ge; 5 and 0 &le; <var>c<sub>i</sub></var> &le; <var>p</var> for every <var>i</var> such that 0 &le; <var>i</var> &le; <var>k</var> such that <var>c<sub>x</sub></var> &gt; <var>c<sub>x + 1</sub></var> and <var>d<sub>c<sub>x</sub></sub> &le; d<sub>c<sub>x + 1</sub></sub></var> for every <var>x</var> such that 0 &le; <var>x</var> &le; <var>k - 1</var>.</p>
-<p>Shiro needs all the <em>K-numbers</em> between <var>A</var> and <var>B</var> (1 &le; <var>A</var> &le; <var>B</var> &lt; 10<sup>18</sup>) to complete her calculations. In the time you need to compute all those numbers, she is sure that she can calculate the exact numbers in her head. Therefore, Shiro only needs you to determine the number of <em>K-numbers</em> that exist between <var>A</var> and <var>B</var> (to verify her calculations).</p>
+<p>Shiro is enthralled by the latest FPS (first person shooter) game in the Eastern Federation. A lot is riding on this game, so she is planning to snipe the other player, Izuna, for a decisive victory. Shiro plans to pull this off from a kilometer away, and Izuna is in a shelter, so this requires very advanced mathematical calculations. Shiro needs a special sequence of numbers, the <em>Kuuhaku numbers</em> (a.k.a. KH-numbers) to accomplish her goal.</p>
+
+<p>The KH-numbers have an interesting properly: examining each digit of an <var>N</var> digit KH-number in base-10 from left to right (most significant to least significant), there will exist a length 6 <a href="http://en.wikipedia.org/wiki/Subsequence">subsequence</a> of the digits that are nondecreasing in value. More formally: A number in the form <var>a</var><sub><var>N</var></sub>&times;10<sup><var>N</var>&minus;1</sup> + <var>a</var><sub><var>N</var>&minus;1</sub>&times;10<sup><var>N</var>&minus;2</sup> + &hellip; + <var>a</var><sub>1</sub>&times;10<sup>0</sup> have the sequence of digits {<var>a</var><sub><var>N</var></sub>, <var>a</var><sub><var>N</var>&minus;1</sub>, &hellip;, <var>a</var><sub>1</sub>}. This number is a KH-number iff there exists a sequence {<var>c</var><sub>1</sub>, <var>c</var><sub>2</sub>, &hellip;, <var>c<sub>k</sub></var>} for <var>k</var> &ge; 6, where 1 &le; <var>c<sub>i</sub></var> &le; <var>N</var> and <var>d<sub>c<sub>i</sub></sub></var> &le; <var>d</var><sub><var>c</var><sub><var>i</var> + 1</sub></sub> (for 1 &le; <var>i</var> &le; <var>k</var>).</p>
+
+<p>Shiro needs all the KH-numbers between <var>A</var> and <var>B</var> (1 &le; <var>A</var> &le; <var>B</var> &lt; 10<sup>18</sup>) to complete her calculations. In the time you need to compute all those numbers, she is sure that she can calculate the exact numbers in her head. Therefore, Shiro only needs you to determine the number of KH-numbers that exist between <var>A</var> and <var>B</var> to verify her calculations.</p>
 
 <h3>Input Format</h3>
 <p>
-The first line will have <var>A</var>.
-The second line will have <var>B</var>.
-You can assume that 30% of the time, Shiro will only give you <var>A</var> and <var>B</var> such that 1 &le; <var>A</var> &le; <var>B</var> &lt; 10<sup>7</sup>.
+The 1st line of input will contain the integer <var>A</var>.<br/>
+The 2nd line of input will contain the integer <var>B</var>.<br/>
+You can assume for test cases worth 30% of points, 1 &le; <var>A</var> &le; <var>B</var> &lt; 10<sup>7</sup>.
 </p>
 
 <h3>Output Format</h3>
-<p>A single integer, the number of <em>K-numbers</em> between <var>A</var> and <var>B</var> (inclusive).</p>
+<p>A single integer, the number of KH-numbers between <var>A</var> and <var>B</var>, inclusive.</p>
 
 <h3>Sample Input 1</h3>
 <pre>
@@ -27,7 +29,7 @@ You can assume that 30% of the time, Shiro will only give you <var>A</var> and <
 </pre>
 
 <h3>Explanation for Sample 1</h3>
-<p>The valid <em>K-numbers</em> are 111111, 111112, 111113, 111114, 111115, 111116, 111117, 111118, 111119, 111122, 111123, 111124, 111125, 111126, 111127, 111128, 111129.</p>
+<p>The valid KH-numbers are 111111, 111112, 111113, 111114, 111115, 111116, 111117, 111118, 111119, 111122, 111123, 111124, 111125, 111126, 111127, 111128, and 111129.</p>
 
 <h3>Sample Input 2</h3>
 <pre>
@@ -41,7 +43,7 @@ You can assume that 30% of the time, Shiro will only give you <var>A</var> and <
 </pre>
 
 <h3>Explanation for Sample 2</h3>
-<p>The valid <em>K-numbers</em> are 2454449 and 2454455.</p>
+<p>The valid KH-numbers are 2454449 and 2454455.</p>
 
 <h3>Sample Input 3</h3>
 <pre>
@@ -55,4 +57,4 @@ You can assume that 30% of the time, Shiro will only give you <var>A</var> and <
 </pre>
 
 <h3>Explanation for Sample 3</h3>
-<p>Note that 1111120 is not a <em>K-number</em>, but 1111121 is.</p>
+<p>All numbers between 1111111 and 1111123 are KH-numbers, except for 1111120.</p>
