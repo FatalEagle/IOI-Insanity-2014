@@ -1,5 +1,5 @@
 // Campfire Cooking
-// Official Solution - O(???)
+// Official Solution
 // By Timothy Li
 
 #include <algorithm>

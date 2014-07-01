@@ -1,5 +1,5 @@
 // Pie Shop
-// Trie Solution - O(???)
+// Trie Solution
 // By Timothy Li
 
 #include <iostream>

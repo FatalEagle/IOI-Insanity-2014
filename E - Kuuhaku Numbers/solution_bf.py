@@ -1,5 +1,5 @@
 # Kuuhaku Numbers
-# Brute Force Solution - O(???)
+# Brute Force Solution - O((B - A) log ^ 2 B)
 # By Timothy Li
 
 def LNDS(A):
