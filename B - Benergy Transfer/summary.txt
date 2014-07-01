@@ -1,0 +1,8 @@
+Batch 1: Case 1, 2, 3
+Batch 2: Everything else
+
+Case | Dimensions | Notes
+---------------------------------------------------------------------------
+   1 |          2 | parallel lines
+   2 |          3 | A = B, A and B are moving away from each other slowly
+   
