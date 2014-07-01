@@ -8,7 +8,7 @@ for i in xrange(2, MAXN):
   if not sieve[i]:
     for j in xrange(i, MAXN, i):
       sieve[j] += 1
-X = int(raw_input())
-Y = int(raw_input())
-for i in xrange(X, Y + 1):
+A = int(raw_input())
+B = int(raw_input())
+for i in xrange(A, B + 1):
   print sieve[i]
