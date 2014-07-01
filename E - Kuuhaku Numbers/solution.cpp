@@ -1,5 +1,5 @@
 // Kuuhaku Numbers
-// Official Solution - O((base ^ 7) * log(B))
+// Official Solution - O((base^7) * log(B))
 // By Timothy Li
 
 #include <iostream>
