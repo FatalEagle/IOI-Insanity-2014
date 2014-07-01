@@ -1,8 +1,15 @@
-Batch 1: Case 1, 2, 3
-Batch 2: Everything else
+Batch cases 1, 2, and 3 together
+Everything else is a separate case
 
 Case | Dimensions | Notes
 ---------------------------------------------------------------------------
    1 |          2 | parallel lines
    2 |          3 | A = B, A and B are moving away from each other slowly
-   
+   3 |          4 | random
+   4 |          6 | start at corners of grid, meet in the middle and moves away
+   5 |         10 | t is very small
+   6 |       1000 | t is medium
+   7 |      10000 | t is large
+   8 |      50000 | t is medium
+   9 |     100000 | t is medium
+  10 |     100000 | t is large
