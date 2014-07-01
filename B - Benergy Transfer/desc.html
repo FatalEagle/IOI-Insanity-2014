@@ -11,6 +11,7 @@
 #flashing-message {
   color: red;
   font-weight: bold;
+  white-space: nowrap;
 
   -moz-animation-duration: 500ms;
   -moz-animation-name: blink;
@@ -54,7 +55,7 @@
 
 <p>After some digging through manuals, Ben discovered that, sure enough, his rocket-ship had integrated energy collection capabilities. The ship is able to capture the radiant and thermal energy of any nearby object &mdash; the closer the object, the more energy will be transfered over to the ship! The encounter with this star might be his only chance to repower ship, so Ben better make the absolute most out of the energy transfer or risk dying in this realm of a bajillion dimensions.</p>
 
-<p>In <var>N</var>-D Land, every point in space can be represented using a coordinate of <var>N</var> numbers (<var>x</var><sub>1</sub>, <var>x</var><sub>2</sub>, &hellip;, <var>x<sub>N</sub></var>). We shall let two such <var>N</var>-dimensional points <var>A</var> and <var>B</var> respectively represent the locations of Ben's ship and and the HV star at <var>t</var> = 0. Ben's velocity is represented by the vector <var>V<sub>A</sub></var> = (<var>dA</var><sub>1</sub>, <var>dA</var><sub>2</sub>, &hellip;, <var>dA<sub>N</sub></var>). This means that during every unit of time, the value <var>x<sub>i</sub></var> describing Ben's position in the <var>i</var>-th dimension will increase by <var>dA<sub>i</sub></var>. Similarly, the velocity of the star can be represented by the vector <var>V<sub>B</sub></var> = (<var>dB</var><sub>1</sub>, <var>dB</var><sub>2</sub>, &hellip;, <var>dB<sub>N</sub></var>).</p>
+<p>In <var>N</var>-D Land, every point in space can be represented using a coordinate of <var>N</var> numbers (<var>x</var><sub>1</sub>, <var>x</var><sub>2</sub>, &hellip;, <var>x<sub>N</sub></var>). We shall let two such <var>N</var>-dimensional points <var>A</var> and <var>B</var> respectively represent the locations of Ben's ship and and the HV star at <var>t</var> = 0. Ben's velocity is represented by the vector <var>V<sub>A</sub></var> = (<var>V<sub>A,</sub></var><sub>1</sub>, <var>V<sub>A,</sub></var><sub>2</sub>, &hellip;, <var>V<sub>A,N</sub></var>). This means that during every unit of time, the value <var>x<sub>i</sub></var> describing Ben's position in the <var>i</var>-th dimension will increase by <var>V<sub>A,i</sub></var>. Similarly, the velocity of the star can be represented by the vector <var>V<sub>B</sub></var> = (<var>V<sub>B,</sub></var><sub>1</sub>, <var>V<sub>B,</sub></var><sub>2</sub>, &hellip;, <var>V<sub>B,N</sub></var>).</p>
 
 <p>Knowing these pieces of information, Ben would like to find out just how close he is ever going to get to the star, and at what time he will get the closest. Please help him make the most of this energy transfer!</p>
 
@@ -89,7 +90,7 @@ Your output will be considered correct if it is accurate to &pm;10<sup>&minus;5<
 <h3>Explanation for Sample 1</h3>
 <p>In this example, Ben happens to have been transferred to 2D land. Ben starts out at (0, 0) and the star starts out at (5, 0). Every unit of time, Ben moves 1 unit in the positive x-direction and 1 unit in the positive y-direction. Every unit of time, the star moves by 2 in the positive y-direction. Ben performs the energy transfer at <var>t</var> = 2.5, when the ship will be at (2.5, 2.5) and the star will be at (5, 5). This is the closest they'll ever be, with a distance of &radic;((5 &minus; 2.5)<sup>2</sup> + (5 &minus; 2.5)<sup>2</sup>) &approx; 3.53553. The scenario is depicted in the figure below.</p>
 
-<p align="left"><img src="mmm14b.png" alt="" width="1000px"/></p>
+<p align="left"><img src="content/desc/mmm14b/mmm14b.png" alt="" width="1000px"/></p>
 
 <h3>Sample Input 2</h3>
 <pre>
