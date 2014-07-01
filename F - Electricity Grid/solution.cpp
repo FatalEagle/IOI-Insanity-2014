@@ -1,5 +1,5 @@
 // Electricity Grid
-// Official Solution - O(???)
+// Official Solution - O((N ^ 3) * M)
 // By Timothy Li
 
 #include <algorithm> 

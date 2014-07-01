@@ -1,5 +1,5 @@
 // Pie Shop
-// Solution - O(???)
+// Solution - O(R * (2 ^ C) * Fib(C))
 // By Timothy Li
 
 #include <algorithm>
