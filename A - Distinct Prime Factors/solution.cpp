@@ -1,5 +1,5 @@
 // Distinct Prime Factors
-// Official Solution - O(N log log N)
+// Official Solution - O(N log N)
 // By Alex Li
 
 #include <iostream>
