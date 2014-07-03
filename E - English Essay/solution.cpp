@@ -1,254 +1,248 @@
 // English Essay
-// Official Solution
+// Official Solution ~ O(E log N)
 // By Alex Li
 
-#if __cplusplus > 199711L
-  #define map unordered_map
-  #define set unordered_set
-#endif
-
-#include <algorithm>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include <map>
 #include <queue>
-#include <set>
+#include <string>
 #include <vector>
 using namespace std;
 
-const int MAXN = 10000 + 1;
-const int MOD = 1000000007;
-const int INF = 0x3f3f3f3f;
+const size_t MAX_SZ = 5000005;
+const size_t MOD = 1000000007;
+const size_t base = 1000000000; /* for bigint */
+const size_t base_digits = 9; /* ceil(log10(base)) */
 
-vector<string> toks; //input tokens
+struct bigint {
+  std::vector<int> a; /* a[0] is the rightmost base-digit */
+  int sign;
 
-//parse input into tokens, placing the results in toks
-void tokenize_input() {
-  //read input and tokenize lines
-  string s;
-  vector<string> tmp;
-  while (getline(cin, s)) {
-    bool opened = false; //quote opened
-    string curr;
-    for (int i = 0; i < s.size(); i++) {
-      if (opened) {
-        if (s[i] == '"') {
-          tmp.push_back(curr);
-          opened = false;
-          curr = "";
-        } else {
-          curr += s[i];
-        }
-      } else {
-        if (s[i] == ' ') continue;
-        if (s[i] == '"') {
-          opened = true;
-          continue;
-        }
-        int idx = s.find(' ', i + 1);
-        if (idx == string::npos) {
-          tmp.push_back(s.substr(i));
-          break;
-        }
-        tmp.push_back(s.substr(i, idx - i));
-        i = idx;
+  bigint() : sign(1) {}
+  bigint(long long v) { *this = v; }
+  //bigint(const std::string &s) { read(s); }
+  //bigint(const char *s) { read(std::string(s)); }
+  
+  bigint(const bigint &v) {
+    sign = v.sign;
+    a = v.a;
+  }
+
+  void operator = (const bigint &v) {
+    sign = v.sign;
+    a = v.a;
+  }
+
+  void operator = (long long v) {
+    sign = 1;
+    if (v < 0) sign = -1, v = -v;
+    for (; v > 0; v = v / base)
+      a.push_back(v % base);
+  }
+
+  bigint operator + (const bigint &v) const {
+    if (sign == v.sign) {
+      bigint res = v;
+      for (int i = 0, carry = 0; i < 
+       std::max(a.size(), v.a.size()) || carry; ++i) {
+        if (i == res.a.size()) res.a.push_back(0);
+        res.a[i] += carry + (i < a.size() ? a[i] : 0);
+        carry = res.a[i] >= base;
+        if (carry) res.a[i] -= base;
       }
+      return res;
     }
+    //return *this - (-v);
   }
-  //find all items in quantifier bracket [] {}
-  //replace them with an empty string ""
-  for (int i = 0; i < tmp.size(); i++) {
-    if (tmp[i] == "[" || tmp[i] == "{") {
-      int open = 0;
-      for (int j = i; j < tmp.size(); j++) {
-        if (tmp[j] == "[" || tmp[j] == "{") open++;
-        if (tmp[j] == "]" || tmp[j] == "}") open--;
-        tmp[j] = "";
-        if (open == 0) { i = j; break; }
-      }
-    }
+
+  int operator % (int v) const {
+    if (v < 0) v = -v;
+    int m = 0;
+    for (int i = a.size() - 1; i >= 0; --i)
+      m = (a[i] + m * (long long)base) % v;
+    return m * sign;
   }
-  //finally, merge all adjacent literals
-  //place the results into the toks vector
-  for (int i = 0, j; i < tmp.size(); i++) {
-    if (!tmp.empty() && (tmp[i][0] == '<' ||
-        tmp[i] == "::=" || tmp[i] == "|")) {
-      toks.push_back(tmp[i]);
-    } else {
-      string curr;
-      for (j = i; j < tmp.size(); j++) {
-        if (!tmp.empty() && (tmp[j][0] == '<' ||
-            tmp[j] == "::=" || tmp[j] == "|"))
-          break;
-        curr += tmp[j];
-      }
-      toks.push_back(curr);
-      i = j - 1;
-    }
+
+  bool operator < (const bigint &v) const {
+    if (sign != v.sign) return sign < v.sign;
+    if (a.size() != v.a.size())
+      return a.size() * sign < v.a.size() * v.sign;
+    for (int i = a.size() - 1; i >= 0; i--)
+      if (a[i] != v.a[i])
+        return a[i] * sign < v.a[i] * sign;
+    return false;
   }
-}
 
-//each concat_t is a pair<value, isLiteral>
-//if isLiteral: value is the length of the literal
-//   otherwise: value is the ID of the symbol
-typedef pair<int, bool> concat_t;
-typedef vector<concat_t> branch_t;
-typedef vector<branch_t> definition_t;
-
-int ndefs = 0;
-definition_t defs[MAXN]; //definitions
-
-map<string, int> ID; //IDs of symbol name
-
-inline int getID(const string &s) {
-  static map<string, int>::iterator ID_it;
-  if ((ID_it = ID.find(s)) == ID.end())
-    return ID[s] = ndefs++;
-  return ID_it->second;
-}
-
-//creates definition from [lo, hi) in the toks vector
-void add_definition(definition_t &def, int lo, int hi) {
-  def.push_back(branch_t());
-  for (int i = lo; i < hi; i++) {
-    if (toks[i] == "|") {
-      def.push_back(branch_t());
-    } else if (toks[i] == "<EOL>") {
-      def.back().push_back(make_pair(1, true));
-    } else if (toks[i][0] == '<') { //symbol
-      def.back().push_back(
-        make_pair(getID(toks[i]), false));
-    } else { //literal
-      def.back().push_back(
-        make_pair(toks[i].length(), true));
-    }
-  }
-}
-
-void add_definitions() {
-  for (int i = 1, hi; i < toks.size(); i++) {
-    if (toks[i] == "::=") {
-      vector<string>::iterator it;
-      it = find(toks.begin() + i + 1, toks.end(), "::=");
-      if (it == toks.end()) hi = toks.size();
-      else hi = it - toks.begin() - 1;
-      add_definition(defs[getID(toks[i - 1])], i + 1, hi);
-      i = hi;
-    }
-  }
-}
-
-//<a> ::= <b> "x" | <b> <c> "xx" yields edges:
-//  <b> --> (a, 1 + len(<b>))
-//  <b> --> (a, 2 + len(<b>) + len(<c>))
-//  <c> --> (a, 2 + len(<b>) + len(<c>))
-//We store the distance as the number second part as IDs 
-
-struct edge_t {
-  int n, d_val; //node, and known part of weight
-  vector<int> d_ids; //ids of unknown distances
-} edge, edges[1000000];
-
-int nedges = 0; //total edges
-set<int> adj[MAXN + 1]; //set<edgeID> adj[MAXN]
-
-void build_adj_list() {
-  for (int i = 0; i < ndefs; i++) { //for all defs
-    //for all branches
-    definition_t::iterator it = defs[i].begin();
-    for (; it != defs[i].end(); it++) {
-      edges[nedges].n = i;
-      edges[nedges].d_val = 0;
-      //for all concatenated values
-      branch_t::iterator it2 = it->begin();
-      for (; it2 != it->end(); it2++) {
-        if (it2->second) { //if isLiteral
-          edges[nedges].d_val += it2->first;
-        } else {
-          edges[nedges].d_ids.push_back(it2->first);
-        }
-      }
-      //for all concatenated values, again
-      it2 = it->begin();
-      for (; it2 != it->end(); it2++) {
-        if (!it2->second) //if it's a symbol
-          adj[it2->first].insert(nedges); //add edge
-      }
-      nedges++;
-    }
-  }
-}
-
-/************ Dijkstra's Algorithm ************/
-
-int dist[MAXN + 1];
-
-void update_dist(edge_t &e) {
-  //In the current edge distance, check all dependent d_ids,
-  //  if they've already been solved by dijkstra's in dist[]
-  //  remove the node from d_ids and reupdate the d_val
-  for (int i = 0; i < e.d_ids.size(); i++) {
-    if (dist[e.d_ids[i]] != INF) {
-      e.d_val += dist[e.d_ids[i]];
-      e.d_ids[i] = -1; //mark it as -1 for removal
-    }
-  }
-  remove(e.d_ids.begin(), e.d_ids.end(), -1);
-}
-
-struct dijkstra_comp {
-  bool operator () (edge_t &a, edge_t &b) {
-    update_dist(a);
-    update_dist(b);
-    //compare by first by whether they have dependencies
-    //then compare by their shortest distance
-    if (a.d_ids.empty() != b.d_ids.empty())
-      //prioritize edges which has fully solved distances
-      return a.d_ids.empty() > b.d_ids.empty();
-    return a.d_val > b.d_val;
+  friend std::ostream& operator << (std::ostream &out,
+                                    const bigint &v) {
+    if (v.sign == -1) out << '-';
+    out << (v.a.empty() ? 0 : v.a.back());
+    for (int i = v.a.size() - 2; i >= 0; --i)
+      out << std::setw(base_digits) <<
+             std::setfill('0') << v.a[i];
+    return out;
   }
 };
 
-int dijkstra(int dest) {
-  memset(dist, INF, sizeof dist);
-  priority_queue<edge_t, vector<edge_t>, dijkstra_comp> pq;
-  //start by pushing edges with no dependencies for their distances
-  //i.e. symbols that can be represented as strictly literals
-  for (int e = 0; e < nedges; e++)
-    if (edges[e].d_ids.empty()) {
-      dist[edges[e].n] = edges[e].d_val;
-      pq.push(edges[e]);
-    }
-  int a, b; edge_t temp;
-  while (!pq.empty()) {
-    edge = pq.top();
-    pq.pop();
-    if (!edge.d_ids.empty()) break; //out of computable distances
-    if (edge.n == dest) return edge.d_val; //found answer
-    a = edge.n; temp = edge;
-    set<int>::iterator it = adj[edge.n].begin();
-    for (; it != adj[edge.n].end(); ++it) { //for all neighbours
-      if (dist[b = edges[*it].n] != INF) continue;
-      if (edges[*it].d_ids.empty()) {
-        if (dist[b] > dist[a] + edges[*it].d_val) {
-          edge.d_val = dist[b] = 
-            dist[a] + edges[*it].d_val;
-        }
-      }
-      edge.n = b;
-      update_dist(edge);
-      pq.push(edge);
-      edge = temp;
-    }
+struct node_t;
+
+struct edge_t {
+  node_t *target;
+  int litlen, counter;
+  bigint tlen;
+
+  edge_t(node_t &n) {
+    target = &n;
+    litlen = counter = 0;
   }
-  return dist[dest] == INF ? -1 : dist[dest];
-}
+};
+
+struct node_t {
+  string name;
+  bigint *best;
+  bool seen;
+  vector<edge_t*> dependents;
+
+  node_t(const string &s = "") {
+    name = s;
+    best = NULL;
+    seen = false;
+  }
+
+  bool push(const bigint &x) {
+    if (best == NULL || x < *best) {
+      best = new bigint(x);
+      return true;
+    }
+    return false;
+  }
+};
+
+struct qnode_t {
+  node_t *n;
+  bigint *v;
+
+  qnode_t(node_t &n) {
+    this->n = &n;
+    this->v = n.best;
+  }
+
+  //compare descending for priority queue
+  bool operator < (const qnode_t &rhs) const {
+    return *(rhs.v) < *(this->v);
+  }
+};
 
 int main() {
-  cin.sync_with_stdio(0); cin.tie(0);
-  tokenize_input();
-  add_definitions();
-  build_adj_list();
-  cout << dijkstra(ID["<essay>"]) << endl;
+  //read the entire file...
+  char file[MAX_SZ]; size_t fileSize;
+  fseek(stdin, 0L, SEEK_END);
+  fileSize = ftell(stdin); rewind(stdin);
+  fread(file, 1, fileSize, stdin);
+  file[fileSize] = '\0';
+
+  //remove expressions in quantifier brackets
+  char str[MAX_SZ]; size_t s_len = 0;
+  bool opened = false; int depth = 0;
+  for (char *c = file; *c != '\0'; c++) {
+    if (*c == '\n' || *c == '\r') *c == ' ';
+    if (*c == '[' || *c == '{') depth++;
+    else if (*c == ']' || *c == '}') depth--;
+    else if (depth == 0) {
+      if (*c == '"') {
+        opened = !opened;
+      } else {
+        if (*c == ' ' && opened)
+          str[s_len++] = 'x';
+        else
+          str[s_len++] = *c;
+      }
+    }
+  }
+  str[s_len] = '\0';
+
+  //tokenize definitions
+  vector<string> tokens;
+  char *tokptr = strtok(str, " \r\n");
+  while (tokptr != NULL) {
+    tokens.push_back(tokptr);
+    tokptr = strtok(NULL, " \r\n");
+  }
+
+  //build graph
+  vector<int> def_idx;
+  vector<node_t> nodes;
+  map<string, node_t> m;
+  for (int i = 0; i < def_idx.size(); i++)
+    if (tokens[i] == "::=") {
+      def_idx.push_back(i);
+      nodes.push_back(node_t(tokens[i - 1]));
+      m[tokens[i - 1]] = nodes.back();
+    }
+  for (int i = 0, hi; i < def_idx.size(); i++) {
+    if (i == def_idx.size() - 1) {
+      hi = tokens.size();
+    } else {
+      hi = def_idx[i + 1] - 1;
+    }
+    edge_t *e = new edge_t(nodes[i]);
+    for (int j = def_idx[i] + 1; j < hi; j++) {
+      if (tokens[j] == "|") {
+        if (e->counter == 0)
+          nodes[i].push(bigint(e->litlen));
+        e = new edge_t(nodes[i]);
+      } else {
+        map<string, node_t>::iterator it;
+        it = m.find(tokens[j]);
+        if (it != m.end()) {
+          e->counter++;
+          it->second.dependents.push_back(e);
+        } else if (tokens[j] == "<EOL>") {
+          e->litlen++;
+        } else {
+          e->litlen += tokens[j].length();
+        }
+      }
+    }
+    if (e->counter == 0)
+      nodes[i].push(bigint(e->litlen));
+  }
+
+  //Dijkstra's algorithm
+  priority_queue<qnode_t> pq;
+  for (int i = 0; i < nodes.size(); i++)
+    if (nodes[i].best != NULL)
+      pq.push(qnode_t(nodes[i]));
+  node_t *n;
+  while (!pq.empty()) {
+    qnode_t qn = pq.top();
+    pq.pop();
+    if ((n = qn.n)->seen) continue;
+    n->seen = true;
+    vector<edge_t*>::iterator it;
+    it = n->dependents.begin();
+    for (; it != n->dependents.end(); ++it) {
+      edge_t *e = *it;
+      e->counter--;
+      e->tlen = e->tlen + *n->best;
+      if (e->counter == 0) {
+        node_t *o = e->target;
+        if (o->push(e->tlen + bigint(e->litlen))) {
+          pq.push(qnode_t(*(e->target)));
+        }
+      }
+    }
+  }
+
+  bigint *x = m["<essay>"].best;
+  if (x == NULL) {
+    cout << -1 << endl;
+  } else {
+    cout << (*x % MOD) << endl;
+  }
   return 0;
 }
