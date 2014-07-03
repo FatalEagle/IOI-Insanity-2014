@@ -20,69 +20,51 @@ using namespace std;
 const size_t MAX_N = 10005;
 const size_t MAX_SZ = 5500005;
 const size_t MOD = 1000000007;
-const size_t base = 1000000000; /* for bigint */
-const size_t base_digits = 9; /* ceil(log10(base)) */
 
-struct bigint {
+struct bigint { /* simple unsigned version */
+  static const size_t base = 1000000000;
+  static const size_t base_digits = 9; /* ceil(log10(base)) */
+
   std::vector<int> a; /* a[0] is the rightmost base-digit */
-  int sign;
 
-  bigint() : sign(1) {}
-  bigint(long long v) { *this = v; }
+  bigint(unsigned long long v = 0) { *this = v; }
 
-  bigint(const bigint &v) {
-    sign = v.sign;
-    a = v.a;
-  }
+  void operator = (const bigint &v) { a = v.a; }
 
-  void operator = (const bigint &v) {
-    sign = v.sign;
-    a = v.a;
-  }
-
-  void operator = (long long v) {
-    sign = 1;
-    if (v < 0) sign = -1, v = -v;
+  void operator = (unsigned long long v) {
     for (; v > 0; v = v / base)
       a.push_back(v % base);
   }
 
   bigint operator + (const bigint &v) const {
-    if (sign == v.sign) {
-      bigint res = v;
-      for (int i = 0, carry = 0; i < 
-       std::max(a.size(), v.a.size()) || carry; ++i) {
-        if (i == res.a.size()) res.a.push_back(0);
-        res.a[i] += carry + (i < a.size() ? a[i] : 0);
-        carry = res.a[i] >= base;
-        if (carry) res.a[i] -= base;
-      }
-      return res;
+    bigint res = v;
+    for (int i = 0, carry = 0; i < 
+     std::max(a.size(), v.a.size()) || carry; ++i) {
+      if (i == res.a.size()) res.a.push_back(0);
+      res.a[i] += carry + (i < a.size() ? a[i] : 0);
+      carry = res.a[i] >= base;
+      if (carry) res.a[i] -= base;
     }
-    //return *this - (-v);
+    return res;
   }
 
-  int operator % (int v) const {
-    if (v < 0) v = -v;
+  unsigned int operator % (unsigned int v) const {
     int m = 0;
     for (int i = a.size() - 1; i >= 0; --i)
       m = (a[i] + m * (long long)base) % v;
-    return m * sign;
+    return m;
   }
 
   bool operator < (const bigint &v) const {
-    if (sign != v.sign) return sign < v.sign;
     if (a.size() != v.a.size())
-      return a.size() * sign < v.a.size() * v.sign;
+      return a.size() < v.a.size();
     for (int i = a.size() - 1; i >= 0; i--)
-      if (a[i] != v.a[i])
-        return a[i] * sign < v.a[i] * sign;
+      if (a[i] != v.a[i]) return a[i] < v.a[i];
     return false;
   }
 
   friend std::ostream& operator << (std::ostream &out,
                                     const bigint &v) {
-    if (v.sign == -1) out << '-';
     out << (v.a.empty() ? 0 : v.a.back());
     for (int i = v.a.size() - 2; i >= 0; --i)
       out << std::setw(base_digits) <<
@@ -127,9 +109,9 @@ struct qnode_t {
   node_t *n;
   bigint *v;
 
-  qnode_t(node_t &n) {
-    this->n = &n;
-    this->v = n.best;
+  qnode_t(node_t *n) {
+    this->n = n;
+    this->v = n->best;
   }
 
   //compare descending for priority queue
@@ -217,7 +199,7 @@ int main() {
   priority_queue<qnode_t> pq;
   for (int i = 0; i < nnodes; i++)
     if (nodes[i].best != NULL)
-      pq.push(qnode_t(nodes[i]));
+      pq.push(qnode_t(nodes + i));
   node_t *n; edge_t *e;
   while (!pq.empty()) {
     qnode_t qn = pq.top();
@@ -232,11 +214,12 @@ int main() {
       e->len2 = e->len2 + *n->best;
       if (e->counter == 0) {
         if (e->n->push(e->len2 + bigint(e->len1)))
-          pq.push(qnode_t(*(e->n)));
+          pq.push(qnode_t(e->n));
       }
     }
   }
 
+  //output answer
   bigint *x = m["<essay>"]->best;
   if (x == NULL) {
     cout << -1 << endl;
