@@ -2,6 +2,10 @@
 // Official Solution ~ O(E log N)
 // By Alex Li
 
+#if __cplusplus > 199711L
+  #define map unordered_map
+#endif
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -13,7 +17,8 @@
 #include <vector>
 using namespace std;
 
-const size_t MAX_SZ = 5000005;
+const size_t MAX_N = 10005;
+const size_t MAX_SZ = 5500005;
 const size_t MOD = 1000000007;
 const size_t base = 1000000000; /* for bigint */
 const size_t base_digits = 9; /* ceil(log10(base)) */
@@ -24,9 +29,7 @@ struct bigint {
 
   bigint() : sign(1) {}
   bigint(long long v) { *this = v; }
-  //bigint(const std::string &s) { read(s); }
-  //bigint(const char *s) { read(std::string(s)); }
-  
+
   bigint(const bigint &v) {
     sign = v.sign;
     a = v.a;
@@ -91,24 +94,22 @@ struct bigint {
 struct node_t;
 
 struct edge_t {
-  node_t *target;
-  int litlen, counter;
-  bigint tlen;
+  node_t *n;
+  int len1, counter;
+  bigint len2;
 
-  edge_t(node_t &n) {
-    target = &n;
-    litlen = counter = 0;
+  edge_t(node_t *n) {
+    this->n = n;
+    len1 = counter = 0;
   }
 };
 
 struct node_t {
-  string name;
   bigint *best;
   bool seen;
-  vector<edge_t*> dependents;
+  vector<edge_t*> depend;
 
-  node_t(const string &s = "") {
-    name = s;
+  node_t() {
     best = NULL;
     seen = false;
   }
@@ -149,7 +150,7 @@ int main() {
   char str[MAX_SZ]; size_t s_len = 0;
   bool opened = false; int depth = 0;
   for (char *c = file; *c != '\0'; c++) {
-    if (*c == '\n' || *c == '\r') *c == ' ';
+    if (*c == '\n' || *c == '\r') *c = ' ';
     if (*c == '[' || *c == '{') depth++;
     else if (*c == ']' || *c == '}') depth--;
     else if (depth == 0) {
@@ -167,21 +168,21 @@ int main() {
 
   //tokenize definitions
   vector<string> tokens;
-  char *tokptr = strtok(str, " \r\n");
+  char *tokptr = strtok(str, " ");
   while (tokptr != NULL) {
     tokens.push_back(tokptr);
-    tokptr = strtok(NULL, " \r\n");
+    tokptr = strtok(NULL, " ");
   }
 
   //build graph
+  node_t nodes[MAX_N]; size_t nnodes = 0;
   vector<int> def_idx;
-  vector<node_t> nodes;
-  map<string, node_t> m;
-  for (int i = 0; i < def_idx.size(); i++)
+  map<string, node_t*> m;
+  for (int i = 0; i < tokens.size(); i++)
     if (tokens[i] == "::=") {
       def_idx.push_back(i);
-      nodes.push_back(node_t(tokens[i - 1]));
-      m[tokens[i - 1]] = nodes.back();
+      nodes[nnodes] = node_t();
+      m[tokens[i - 1]] = &nodes[nnodes++];
     }
   for (int i = 0, hi; i < def_idx.size(); i++) {
     if (i == def_idx.size() - 1) {
@@ -189,56 +190,54 @@ int main() {
     } else {
       hi = def_idx[i + 1] - 1;
     }
-    edge_t *e = new edge_t(nodes[i]);
+    edge_t *e = new edge_t(nodes + i);
     for (int j = def_idx[i] + 1; j < hi; j++) {
       if (tokens[j] == "|") {
         if (e->counter == 0)
-          nodes[i].push(bigint(e->litlen));
-        e = new edge_t(nodes[i]);
+          nodes[i].push(bigint(e->len1));
+        e = new edge_t(nodes + i);
       } else {
-        map<string, node_t>::iterator it;
+        map<string, node_t*>::iterator it;
         it = m.find(tokens[j]);
         if (it != m.end()) {
           e->counter++;
-          it->second.dependents.push_back(e);
+          it->second->depend.push_back(e);
         } else if (tokens[j] == "<EOL>") {
-          e->litlen++;
+          e->len1++;
         } else {
-          e->litlen += tokens[j].length();
+          e->len1 += tokens[j].length();
         }
       }
     }
     if (e->counter == 0)
-      nodes[i].push(bigint(e->litlen));
+      nodes[i].push(bigint(e->len1));
   }
 
   //Dijkstra's algorithm
   priority_queue<qnode_t> pq;
-  for (int i = 0; i < nodes.size(); i++)
+  for (int i = 0; i < nnodes; i++)
     if (nodes[i].best != NULL)
       pq.push(qnode_t(nodes[i]));
-  node_t *n;
+  node_t *n; edge_t *e;
   while (!pq.empty()) {
     qnode_t qn = pq.top();
     pq.pop();
     if ((n = qn.n)->seen) continue;
     n->seen = true;
     vector<edge_t*>::iterator it;
-    it = n->dependents.begin();
-    for (; it != n->dependents.end(); ++it) {
-      edge_t *e = *it;
+    it = n->depend.begin();
+    for (; it != n->depend.end(); ++it) {
+      e = *it;
       e->counter--;
-      e->tlen = e->tlen + *n->best;
+      e->len2 = e->len2 + *n->best;
       if (e->counter == 0) {
-        node_t *o = e->target;
-        if (o->push(e->tlen + bigint(e->litlen))) {
-          pq.push(qnode_t(*(e->target)));
-        }
+        if (e->n->push(e->len2 + bigint(e->len1)))
+          pq.push(qnode_t(*(e->n)));
       }
     }
   }
 
-  bigint *x = m["<essay>"].best;
+  bigint *x = m["<essay>"]->best;
   if (x == NULL) {
     cout << -1 << endl;
   } else {

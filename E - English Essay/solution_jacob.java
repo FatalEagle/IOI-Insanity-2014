@@ -1,3 +1,7 @@
+// English Essay
+// Official Solution ~ O(E log N)
+// By Jacob Jackson
+
 import java.io.*;
 import java.util.*;
 import java.math.BigInteger;
