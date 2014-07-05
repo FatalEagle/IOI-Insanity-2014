@@ -6,9 +6,9 @@
 #include <cstdio>
 using namespace std;
 
-const int MAX_N = 100000;
-const int MAX_T = 100000;
-const int LOG_N = 17;
+const int MAX_N = 200000;
+const int MAX_M = 200000;
+const int LOG_N = 18;
 const int MAX_CHANGES = 25000;
 const int MAX_SZ = MAX_N + 1;
 const int LOG_SZ = LOG_N + 1;
@@ -165,15 +165,15 @@ struct chairman_tree {
 } cmt_lower, cmt_upper;
 
 
-int N, T, P, A, B, M, C[MAX_SZ][2];
+int N, M, T, X, Y, Z, C[MAX_SZ][2];
 
 inline void change_temp(int F) {
-  P = (P*A + F*B) % M + 1;
+  T = (T*X + F*Y) % Z + 1;
 }
 
 int GetFood(int i, int j, int l, int h) {
-  int lower = max(1, P - l);
-  int upper = min(MAX_SZ, P + h);
+  int lower = max(1, T - l);
+  int upper = min(MAX_SZ, T + h);
   int ret;
   if (i <= j) {
     ret = cmt_lower.query(i, j, upper) - 
@@ -217,7 +217,7 @@ int main() {
   empty_tree = build(1, MAX_SZ);
   cmt_lower.init();
   cmt_upper.init();
-  scanf("%d%d%d%d%d%d", &N, &T, &P, &A, &B, &M);
+  scanf("%d%d%d%d%d%d", &N, &M, &T, &X, &Y, &Z);
   for (int i = 1; i <= N; i++) {
     scanf("%d%d", C[i], C[i] + 1);
     bit_add(0, C[i][0], 1);
@@ -226,7 +226,7 @@ int main() {
     cmt_upper.init_update(i, C[i][1], 1);
   }
   int a, b, c, d, e;
-  for (int i = 1; i <= T; i++) {
+  for (int i = 0; i < M; i++) {
     scanf("%d", &a);
     if (a == 1) {
       scanf("%d%d%d%d", &b, &c, &d, &e);
