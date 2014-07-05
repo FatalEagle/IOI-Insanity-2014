@@ -9,10 +9,10 @@
 <li>
 <p>Esdeath would like to try a combination of foods, so all soldiers with a number between <var>i</var> and <var>j</var> (1 &le; <var>i</var>, <var>j</var> &le; <var>N</var>; note: it is <i>not</i> necessarily true that <var>i</var> &le; <var>j</var>) will pitch in some food if the type of food they hold tastes best within a certain range of the pot's current temperature <var>T</var> degrees Celsius. That is, if a soldier is <i>between</i> soldiers <var>i</var> and <var>j</var> inclusive, they must contribute if their optimal temperature range overlaps with the range [<var>T</var> &minus; <var>L</var>, <var>T</var> + <var>H</var>] (0 &le; <var>L</var>, <var>H</var> &le; 100000). Here, <i>between</i> means starting from the <var>i</var>-th soldier and going clockwise around the circle, considering every soldier you pass up to and including the <var>j</var>-th soldier.</p>
 
-<p>After each time Esdeath performs this event, the temperature of the pot will change based on three constant values <var>X</var>, <var>Y</var>, and <var>Z</var> (0 &le; <var>X</var>, <var>Y</var> &le; 1000; 1 &le; <var>Z</var> &le; 100000). The new temperature after each instance of this event is determined by the formula: <var>T</var><sub>new</sub> = ((<var>T</var><sub>old</sub>*<var>X</var> + <var>F</var>*<var>Y</var>) mod <var>Z</var>) + 1, where <var>F</var> is the number of foods tossed into the pot. We'll assume that each soldier has a very large quantity of their own type of food, and will always be able to contribute if his or her temperature range is right. Every time this event is called, please determine <var>F</var>, the number of foods that have been tossed into the pot.</p>
+<p>After each time Esdeath performs this event, the temperature of the pot will change based on three constant values <var>X</var>, <var>Y</var>, and <var>Z</var> (0 &le; <var>X</var>, <var>Y</var> &le; 1000; 1 &le; <var>Z</var> &le; 100000). The new temperature after each instance of this event is determined by the formula: <var>T</var><sub>new</sub> = ((<var>T</var><sub>old</sub>*<var>X</var> + <var>F</var>*<var>Y</var>) mod <var>Z</var>) + 1, where <var>F</var> is the number of foods tossed into the pot. We'll assume that each soldier has a very large quantity of their own type of food, and will always be able to contribute if his or her temperature range is right. Every time this event is called, please determine <var>F</var>, the number of types of foods that have been tossed into the pot.</p>
 </li>
 
-<li><p>The <var>i</var>-th soldier gets a new type food, getting rid of their old type of food. The new type food will have an optimal temperature range between <var>L</var> and <var>H</var> (1 &le; <var>i</var> &le; <var>N</var>; 1 &le; <var>L</var> &le; <var>H</var> &le; <var>Z</var>).</p></li>
+<li><p>The <var>i</var>-th soldier gets a new type of food, getting rid of their old type of food. The new type of food will have an optimal temperature range between <var>L</var> and <var>H</var> (1 &le; <var>i</var> &le; <var>N</var>; 1 &le; <var>L</var> &le; <var>H</var> &le; <var>Z</var>).</p></li>
 
 <li>For this event, Esdeath would like to know, hypothetically, if all soldiers between <var>i</var> and <var>j</var> were to put some of their food into the pot in increasing order of the <var>A<sub>i</sub></var> temperatures of their food (the lower bounds of their foods' optimal temperature ranges), what would be the <var>A<sub>i</sub></var> temperature of the <var>k</var>-th soldier who places food into the pot?</li>
 </ol>
@@ -37,11 +37,10 @@ Next <var>M</var> lines: line <var>i</var>+<var>N</var>+1 will describe the even
 <style type="text/css">
 #samples td {
   vertical-align: text-top;
-  padding-right: 50px;
 }
 </style>
 
-<table id="samples">
+<table id="samples" style="width: 100%;">
 <tr><td>
 <h3>Sample Input 1</h3>
 <pre>
@@ -139,7 +138,7 @@ The pot starts at a temperature of 4 degrees Celsius. The range of temperatures 
 All soldiers participate, and 4 types of food are thrown into the pot. The temperature becomes (4*1 + 4*1) mod 10 + 1 = 9 degrees Celsius.<br/>
 Soldiers 2, 3, and 4 participate, and 1 type of food is thrown into the pot. The temperature becomes (9*1 + 1*1) mod 10 + 1 = 1 degrees Celsius.<br/>
 The third soldier cannot throw any food into the pot. The temperature becomes (1*1 + 0*1) mod 10 + 1 = 2 degrees Celsius.<br/>
-All soldiers participate again, and 2 pieces of food are thrown into the pot. The temperature becomes (2*1 + 2*1) mod 10 + 1 = 5 degrees Celsius, and the cooking session ends.
+All soldiers participate again, and 2 types of food are thrown into the pot. The temperature becomes (2*1 + 2*1) mod 10 + 1 = 5 degrees Celsius, and the cooking session ends.
 </p>
 
 <h3>Subtask 1 [8% of points]</h3>
