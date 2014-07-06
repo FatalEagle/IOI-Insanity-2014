@@ -18,9 +18,7 @@ enum dir { L, R };
 struct node {
   int sum;
   node *link[2];
-} pool[MAX_SZ*2 + 2*(MAX_SZ*LOG_N*2 +
-       MAX_CHANGES*LOG_N*LOG_N*2*2)],
-  *nextpool = pool, *empty_tree;
+} *empty_tree;
 
 int bit[2][MAX_SZ + 1];
 
@@ -39,12 +37,13 @@ int bit_query(int t, int l, int r) {
 }
 
 inline node* alloc(node *old) {
-  *nextpool = *old;
-  return nextpool++;
+  node *ret = new node();
+  *ret = *old;
+  return ret;
 }
 
 node* build(int begin, int end) {
-  node *root = nextpool++;
+  node *root = new node();
   root->sum = 0;
   if (begin != end) {
     int mid = begin + (end - begin)/2;
