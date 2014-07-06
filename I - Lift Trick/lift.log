@@ -1,0 +1,43 @@
+		t = 0     floor = 1    
+S 3:
+                             Passenger 1 now waits on floor 2 (t = 0)
+                             Passenger 2 now waits on floor 1 (t = 2)
+                             Passenger 5 now waits on floor 1 (t = 2)
+                               Passenger 2 gets on (dest. floor = 10)
+                                Passenger 5 gets on (dest. floor = 7)
+		t = 3     floor = 1    
+G 2:
+		t = 4     floor = 2    
+S 2:
+                             Passenger 3 now waits on floor 5 (t = 4)
+                             Passenger 6 now waits on floor 3 (t = 4)
+                                Passenger 1 gets on (dest. floor = 5)
+		t = 6     floor = 2    
+G 5:
+		t = 7     floor = 5    
+S 2:
+                             Passenger 1 gets off (waited [0, 7] = 8)
+                               Passenger 3 gets on (dest. floor = 10)
+		t = 9     floor = 5    
+G 10:
+		t = 11    floor = 10   
+S 11:
+                           Passenger 2 gets off (waited [2, 11] = 10)
+                            Passenger 3 gets off (waited [4, 11] = 8)
+                           Passenger 4 now waits on floor 10 (t = 21)
+                                Passenger 4 gets on (dest. floor = 4)
+		t = 22    floor = 10   
+G 4:
+		t = 24    floor = 4    
+S 2:
+                           Passenger 4 gets off (waited [21, 24] = 4)
+		t = 26    floor = 4    
+
+[Simulation Complete]
+
+1 passenger(s) still inside elevator: 5
+1 passenger(s) waiting on their floor: 6
+1 passenger(s) yet to arrive on their initial floor: 7
+
+4 passengers fully serviced.
+Average waiting time for fully serviced passengers: 7.5

@@ -37,7 +37,7 @@
 <p>The <i>waiting time</i> experienced by passenger <var>i</var> is the time from when they arrive, <var>t<sub>i</sub></var>, to the time when they get off (i.e. the moment the elevator doors open on their designated floor <var>B<sub>i</sub></var>).<br/>
 The <i>average waiting time</i> is the sum of the waiting times of all of the passengers, divided by the number of passengers <var>N</var>.</p>
 
-<p>Initially, the elevator is on floor 1 (closed) and the time is 0. Your program must output commands to direct the elevator, and must eventually move all the <var>N</var> passengers to their designated floors. Furthermore, your program should try to service all passengers such that the average waiting time of all passengers is minimized. In the end, your average end time will be scored against your friends. Only when you beat or tie him will you be safe from waxing his back. The odds are already in your favor, so you'd better not screw up!</p>
+<p>Initially, the elevator is on floor 1 (closed) and the time is 0. Your program must output commands to direct the elevator, and must eventually move all the <var>N</var> passengers to their designated floors. Furthermore, your program should try to service all passengers such that the average waiting time of all passengers is minimized. In the end, your average end time will be scored against your friend's. Only when you beat or tie him will you be safe from waxing his back. The odds are already in your favor, so you'd better not screw up!</p>
 
 <h3>Input Format</h3>
 <p>
@@ -68,7 +68,7 @@ The following <var>N</var> lines each contain three integers describing the requ
 <tr><td>STOP <var>t</var></td><td><pre>S <var>t</var></pre></td><td>If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 </table>
 
-<p>Each line of the output should describe an elevator command in one of the three formats listed above. The commands will be performed head to head (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
+<p>Each line of the output should describe an elevator command in one of the three formats listed above. The commands will be performed back to back (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
 
 <h3>Sample Input</h3>
 <pre>
@@ -95,7 +95,7 @@ S 2
 </pre>
 
 <h3>Explanation</h3>
-<p>There are 10 floors in the building. The elevator moves at a rate of 3 floors per second. The elevator must stay open for at least 2 seconds every time it opens. There are 4 passengers, respectively arriving at times 0, 2, 4, and 21. The execution of the output commands are as outlined in the following table.</p>
+<p>There are 10 floors in the building. The elevator must stay open for at least 2 seconds every time it opens. The elevator moves at a rate of 3 floors per second. There are 4 passengers, respectively arriving at times 0, 2, 4, and 21. The execution of the output commands are as outlined in the following table.</p>
 
 <style type="text/css">
 .tg  { border-collapse:collapse; border-spacing:0;}
@@ -118,7 +118,7 @@ S 2
   </tr>
   <tr>
     <td class="tg-031e">0</td><td class="tg-031e" rowspan="3">STOP 3</td>
-    <td class="tg-031e">The elevator is on floor 1. It opens for 3 seconds to wait for passenger 2.</td>
+    <td class="tg-031e">The elevator is on floor 1. It opens for 3 seconds to wait for passenger 2.<br/>Meanwhile, passenger 1 has arrived and now waits on floor 2.</td>
     <td class="tg-wsnc" rowspan="4">A</td><td class="tg-7h0m"></td><td class="tg-7h0m"></td><td class="tg-7h0m"></td>
   </tr>
   <tr>
@@ -230,3 +230,14 @@ Then, your score out of 100 for the test case will be:</p>
 </ul>
 
 <p>Here, <var>Y</var> will actually be an excellent solution for the test case, as predetermined by the contest organizers.</p>
+
+<h3>Simulator</h3>
+<p>For testing purposes, you are provided with an program to simulate the activities of the elevator and passengers. The simulator program <a href="simulator.py" target="_blank">simulator.py<a/> will accept the following command line options:</p>
+
+<ul>
+<li><code>-h</code> will give a brief overview of the available options;</li>
+<li><code>-i INFILE </code> loads the input file in the input format as described above</li>
+<li><code>-cmd CMDFILE </code> loads the command file in the output format as described above</li>
+<li><code>-log LOGFILE </code> specifies the file to dump intermediate information of the simulation into. This is optional, as the same information will always be logged in standard output.</li>
+</ul>
+</div>
