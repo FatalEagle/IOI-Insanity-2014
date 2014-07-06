@@ -1,9 +1,9 @@
 <h3>Maniacal Midsummer Marathon 2014 by AL, TL, JJ</h3>
 <h2>Problem G: Campfire Cooking</h2>
 
-<p>Esdeath is currently enjoying a wonderful dinner with subordinates in her army. There is a giant pot on a campfire, and <var>N</var> (2 &le; <var>N</var> &le; 100000) soldiers surrounding the pot in a circle, numbered clockwise from 1 to <var>N</var>. Each soldier holds a very large supply of a specific type of food that tastes best when cooked at a specific range of temperatures. Soldier <var>i</var>'s food tastes best when it is cooked between <var>A<sub>i</sub></var> and <var>B<sub>i</sub></var> degrees Celsius, inclusive. We shall refer to this as the <i>optimal temperature range</i>.</p>
+<p>Esdeath is currently enjoying a wonderful dinner with subordinates in her army. There is a giant pot on a campfire, and <var>N</var> (2 &le; <var>N</var> &le; 200000) soldiers surrounding the pot in a circle, numbered clockwise from 1 to <var>N</var>. Each soldier holds a very large supply of a specific type of food that tastes best when cooked at a specific range of temperatures. Soldier <var>i</var>'s food tastes best when it is cooked between <var>A<sub>i</sub></var> and <var>B<sub>i</sub></var> degrees Celsius, inclusive. We shall refer to this as the <i>optimal temperature range</i>.</p>
 
-<p>The entire campfire cooking session will last <var>M</var> (1 &le; <var>M</var> &le; 100000) minutes. During each of these minutes, one of three possible events will occur:</p>
+<p>The entire campfire cooking session will last <var>M</var> (1 &le; <var>M</var> &le; 200000) minutes. During each of these minutes, one of three possible events will occur:</p>
 
 <ol>
 <li>
@@ -14,7 +14,7 @@
 
 <li><p>The <var>i</var>-th soldier gets a new type of food, getting rid of their old type of food. The new type of food will have an optimal temperature range between <var>L</var> and <var>H</var> (1 &le; <var>i</var> &le; <var>N</var>; 1 &le; <var>L</var> &le; <var>H</var> &le; <var>Z</var>).</p></li>
 
-<li>For this event, Esdeath would like to know, hypothetically, if all soldiers between <var>i</var> and <var>j</var> were to put some of their food into the pot in increasing order of the <var>A<sub>i</sub></var> temperatures of their food (the lower bounds of their foods' optimal temperature ranges), what would be the <var>A<sub>i</sub></var> temperature of the <var>k</var>-th soldier who places food into the pot?</li>
+<li>For this event, Esdeath would like to know, hypothetically, if all soldiers between <var>i</var> and <var>j</var> were to put some of their food into the pot in increasing order of the <var>A<sub>i</sub></var> temperatures of their food (the lower bounds of their foods' optimal temperature ranges), what would be the <var>A<sub>i</sub></var> temperature of the <var>k</var>-th soldier who places food into the pot? If no such value exists, output <code>-1</code>.</li>
 </ol>
 
 <h3>Input Format</h3>
@@ -143,31 +143,35 @@ All soldiers participate again, and 2 types of food are thrown into the pot. The
 
 <h3>Subtask 1 [8% of points]</h3>
 
-<p><var>N</var>, <var>T</var> &le; 1000.<br/>
+<p><var>N</var>, <var>M</var> &le; 1000.<br/>
 Additionally, there will be no events of type 3.</p>
 
 <h3>Subtask 2 [17% of points]</h3>
 
-<p>In all events of type 1, <var>L</var> = <var>H</var> = 0.<br/>
+<p><var>N</var>, <var>M</var> &le; 100000.<br/>
+In all events of type 1, <var>L</var> = <var>H</var> = 0.<br/>
 Additionally, there will be no events of type 3.</p>
 
 <h3>Subtask 3 [20% of points]</h3>
 
-<p><var>X</var> = 1 and <var>Y</var> = 0.<br/>
+<p><var>N</var>, <var>M</var> &le; 100000.<br/>
+<var>X</var> = 1 and <var>Y</var> = 0.<br/>
 Additionally, there will be no events of type 3.</p>
 
 <h3>Subtask 4 [15% of points]</h3>
 
-<p>There will only be events of type 1.</p>
+<p><var>N</var>, <var>M</var> &le; 100000.<br/>
+There will only be events of type 1.</p>
 
 <h3>Subtask 5 [17% of points]</h3>
 
-<p>There will be no events of type 3.</p>
+<p><var>N</var>, <var>M</var> &le; 100000.<br/>
+There will be no events of type 3.</p>
 
 <h3>Subtask 6 [20% of points]</h3>
 
-<p>There are no additional restrictions.</p>
+<p><var>N</var>, <var>M</var> &le; 100000.</p>
 
 <h3>Subtask 7 [3% of points]</h3>
 
-<p><em>For this subtask alone</em>, there will be a case where <var>N</var> = 200000 and <var>M</var> = 200000.</p>
+<p>There are no additional constraints.</p>
