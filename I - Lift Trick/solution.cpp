@@ -35,7 +35,7 @@ vector<int> wait[MAX_F], insi[MAX_F];
 int ptr = 0; //pointer to current passenger in P[]
 
 //time when person i got out of the elevator
-int t_exit[MAX_N];
+int done = 0, t_exit[MAX_N];
 
 //this must be called before every run-through
 void reset() {
@@ -45,6 +45,7 @@ void reset() {
   fill(wait, wait + MAX_F, vector<int>());
   fill(insi, insi + MAX_F, vector<int>());
   fill(t_exit, t_exit + MAX_N, -1);
+  done = 0;
   ptr = 0;
 }
 
@@ -59,6 +60,7 @@ void stop(int t) {
   if (t >= S) { //open doors to let people out
     for (int i = 0; i < insi[curr_f].size(); i++) {
       t_exit[insi[curr_f][i]] = curr_t;
+      done++;
     }
     insi[curr_f].clear();
   }
@@ -77,24 +79,56 @@ void stop(int t) {
 }
 
 double get_avg() {
-  double ret = 0;
+  double ret = 0; int cnt = 0;
   for (int i = 0; i < N; i++) {
-#ifndef NDEBUG
-    if (t_exit[i] == -1) {
+    if (t_exit[i] != -1) {
+      ret += t_exit[i] - A[i] + 1;
+      cnt++;
+    }
+#if 0
+    else {
       fprintf(stderr, "Not all passengers served!\n");
-      return -1;
+      return 1E30;
     }
 #endif
-    ret += t_exit[i] - A[i] + 1;
   }
-  return ret / N;
+  return (cnt == 0) ? 1E30 : (ret / cnt);
 }
 
+/************* Implement Solutions Below *************/
+
+/* Heuristic Solution 1
+
+   Sweep up to process all tasks, then sweep down
+   If nothing has been processed, go to the floor where
+   the next passenger will be waiting, then stop until
+   they arrive to pick them up.
+*/
 double solve1() {
   reset();
-
-  //do stuff
-
+  for (int steps = 0; steps < 10000; steps++) {
+    bool action = false;
+    //sweep down, then up
+    for (int df = -1; df <= 1; df += 2) {
+      int lim = (df == -1 ? 0 : F + 1);
+      for (int f = curr_f; f != lim; f += df) {
+        if (!insi[f].empty()) { //drop off
+          go(f); stop(S);
+          action = true;
+        }
+        if (!wait[f].empty()) { //pick up
+          go(f); stop(S);
+          action = true;
+        }
+      }
+    }
+    if (!action) {
+      if (ptr == N) break; //done
+      go(P[ptr].a); //go to the next passenger's floor
+      //stop just long enough so they can get in
+      stop(max(S, P[ptr].t - curr_t + 1));
+    }
+  }
   return get_avg();
 }
 
@@ -108,6 +142,7 @@ double solve2() {
 
 int main() {
   freopen("lift.in", "r", stdin);
+  freopen("lift.out", "w", stdout);
 
   scanf("%d%d%lf%d", &F, &S, &V, &N);
   for (int i = 0; i < N; i++) {

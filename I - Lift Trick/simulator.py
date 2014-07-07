@@ -132,15 +132,15 @@ def main():
                             'as well as a list of commands, simulate the ' +
                             'activities of the elevator and passengers.')
     parser.add_argument('-i', '--input-file', dest='infile',
-                        action='store', default=None,
+                        action='store', default='lift.in',
                         type=str, metavar='INFILE',
                         help="input file with elevator and passenger info")
     parser.add_argument('-cmd', '--command-file', dest='cmdfile',
-                        action='store', default=None,
+                        action='store', default='lift.out',
                         type=str, metavar='CMDFILE',
                         help="file containing commands to simulate")
     parser.add_argument('-log', '--log-file', dest='logfile',
-                        action='store', default=None,
+                        action='store', default='lift.log',
                         type=str, metavar='LOGFILE',
                         help='after simulation, also dump info to LOGFILE')
     args = parser.parse_args()
