@@ -1,7 +1,7 @@
 #!/usr/bin/python
 #########################################################################
 #                                                                       #
-# Lift Trick - Elevator and Passenger Simulator                         #
+# Lift Control - Elevator and Passenger Simulator                       #
 # Copyright (c) 2014 Alex Li <alextrovert@gmail.com>                    #
 #                                                                       #
 # This program is free software: you can redistribute it and/or modify  #

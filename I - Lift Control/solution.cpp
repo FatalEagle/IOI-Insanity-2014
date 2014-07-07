@@ -1,4 +1,4 @@
-// Lift Trick
+// Lift Control
 // Official Solution
 // By Alex Li
 
@@ -106,7 +106,8 @@ double get_avg() {
 */
 double solve1() {
   reset();
-  for (int steps = 0; steps < 10000; steps++) {
+  //Just in case TLE
+  for (int steps = 0; steps < 100000; steps++) {
     bool action = false;
     //sweep down, then up
     for (int df = -1; df <= 1; df += 2) {
@@ -164,7 +165,7 @@ int main() {
     best_avg = avg;
     best_sol = curr_sol;
   }
-  //etc.
+  //etc...
 
   for (int i = 0; i < best_sol.size(); i++) {
     printf("%c %d\n", best_sol[i].first, best_sol[i].second);
