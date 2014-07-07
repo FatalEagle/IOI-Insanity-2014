@@ -34,11 +34,11 @@ MAX_V = 20
 MAX_N = 10000
 MAX_T = 100000
 
-logtext = ''
+logtext = []
 
 def log(text):
     global logtext
-    logtext += text
+    logtext.append(text)
 
 def simulate(fcmd, F, S, V, people):
     # inside contains those current in the elevator
@@ -198,12 +198,16 @@ def main():
         print '\t', e.message
         sys.exit(1)
 
+    global logtext
+    logtext = ''.join(logtext)
+
     print logtext
 
     try:  # print to log
         if args.logfile is not None:
             flog = open(args.logfile, 'w')
             flog.write(logtext)
+            flog.close()
     except IOError:
         print 'Error opening log file', args.logfile
         sys.exit(1)
