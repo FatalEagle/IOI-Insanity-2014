@@ -1,3 +1,4 @@
+
 <h3>Maniacal Midsummer Marathon 2014 by AL, TL, JJ</h3>
 <h2>Problem H: Lift Control</h2>
 
@@ -64,7 +65,7 @@ The following <var>N</var> lines each contain three integers describing the requ
 
 <table id="command-table">
 <tr><th>Command</th><th>Format</th><th>Description</th></tr>
-<tr><td>GO <var>b</var></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>, <var>b</var> is an integer) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = <var>t</var><sub>1</sub> + &lceil;| <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
+<tr><td>GO <var>b</var></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>, <var>b</var> is an integer) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = <var>t</var><sub>1</sub> + &lceil; | <var>b</var> &minus; <var>a</var> | &div; <var>V</var> &rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
 <tr><td>STOP <var>t</var></td><td><pre>S <var>t</var></pre></td><td>Stop the elevator for <var>t</var> (0 &le; <var>t</var> &le; 1000000, <var>t</var> is an integer) seconds. If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 </table>
 
@@ -240,4 +241,3 @@ Then, your score out of 100 for the test case will be:</p>
 <li><code>-cmd CMDFILE </code> loads the command file in the output format as described above</li>
 <li><code>-log LOGFILE </code> specifies the file to dump intermediate information of the simulation into. This is optional, as the same information will always be logged in standard output.</li>
 </ul>
-</div>
