@@ -76,7 +76,7 @@ void stop(int t) {
 }
 
 double get_avg() {
-  double ret = 0; int cnt = 0;
+  double ret = 0;
   for (int i = 0; i < N; i++) {
     if (t_exit[i] == -1)
       exit(1); //not all passengers processed
@@ -109,11 +109,9 @@ int main(int argc, char** argv) {
     }
   }
 
-  double X = get_avg();
-  double Y; fscanf(fans, "%lf", &Y);
-
+  double X = get_avg(), Y;
+  fscanf(fans, "%lf", &Y);
   double score = 10 + (int)(90 * (Y / X) + 0.5);
-
   printf("%d\n100\n", score);
   return 0;
 }
