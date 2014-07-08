@@ -163,9 +163,8 @@ double solve2() {
 }
 
 int main() {
-#define NUM "6"
-  freopen("testdata/" NUM ".in", "r", stdin);
-  freopen("testdata/" NUM ".out", "w", stdout);
+  freopen("9.in", "r", stdin);
+  freopen("9.out", "w", stdout);
 
   scanf("%d%d%lf%d", &F, &S, &V, &N);
   for (int i = 0; i < N; i++) {

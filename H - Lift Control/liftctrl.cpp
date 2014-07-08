@@ -102,7 +102,7 @@ int main(int argc, char** argv) {
 
   double X = get_avg(), Y;
   fscanf(fans, "%lf", &Y);
-  double score = 10 + (int)(90 * (Y / X) + 0.5);
+  int score = 10 + (int)(90 * (Y / X) + 0.5);
   printf("%d\n100\n", score);
   return 0;
 }
