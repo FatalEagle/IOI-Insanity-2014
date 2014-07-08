@@ -20,7 +20,7 @@ struct passenger {
 } P[MAX_N];
 
 int N, F, S;  double V;
-int A[MAX_N], B[MAX_N];
+int T[MAX_N], A[MAX_N], B[MAX_N];
 
 typedef vector< pair<char, int> > solution;
 
@@ -51,8 +51,8 @@ void reset() {
 
 void go(int f) {
   curr_sol.push_back(make_pair('G', f));
-  curr_f = f;
   curr_t += ceil(fabs(f - curr_f)/V);
+  curr_f = f;
 }
 
 void stop(int t) {
@@ -82,14 +82,15 @@ double get_avg() {
   double ret = 0; int cnt = 0;
   for (int i = 0; i < N; i++) {
     if (t_exit[i] != -1) {
-      ret += t_exit[i] - A[i] + 1;
+      ret += t_exit[i] - T[i] + 1;
       cnt++;
     }
 #if 0
     else {
-      fprintf(stderr, "Not all passengers served!\n");
+      fprintf(stderr, "%d - Not all passengers served!\n");
       return 1E30;
     }
+    printf("%d [%d, %d]\n", i + 1, T[i], t_exit[i]);
 #endif
   }
   return (cnt == 0) ? 1E30 : (ret / cnt);
@@ -97,7 +98,7 @@ double get_avg() {
 
 /************* Implement Solutions Below *************/
 
-/* Heuristic Solution 1
+/* Heuristic Solution 1 - Back and Forth
 
    Sweep up to process all tasks, then sweep down
    If nothing has been processed, go to the floor where
@@ -133,24 +134,43 @@ double solve1() {
   return get_avg();
 }
 
+
+/* Heuristic Solution 2 - Greedy
+
+   Tend to the floor that has the largest waiting average
+*/
+
 double solve2() {
   reset();
-  
-  //do stuff
+  return get_avg();
+  for (int steps = 0; steps < 100000; steps++) {
+    int max_time = -1, max_floor;
+    for (int f = 1; f <= F; f++) {
+      if (wait[f].empty()) continue;
+      double floor_avg = 0;
+      for (int i = 0; i < wait[f].size(); i++) {
+        floor_avg += curr_t - A[wait[f][i]];
+      }
+      floor_avg /= wait[f].size();
+      if (floor_avg > max_time) {
+        max_time = floor_avg;
+        max_floor = f;
+      }
+    }
+  }
 
   return get_avg();
 }
 
 int main() {
-  freopen("lift.in", "r", stdin);
-  freopen("lift.out", "w", stdout);
+#define NUM "10"
+  freopen("testdata/" NUM ".in", "r", stdin);
+  freopen("testdata/" NUM ".out", "w", stdout);
 
   scanf("%d%d%lf%d", &F, &S, &V, &N);
   for (int i = 0; i < N; i++) {
-    P[i].id = i;
-    scanf("%d%d%d", &P[i].t, &P[i].a, &P[i].b);
-    A[i] = P[i].a;
-    B[i] = P[i].b;
+    scanf("%d%d%d", T + i, A + i, B + i);
+    P[i] = (passenger){i, T[i], A[i], B[i]};
   }
   sort(P, P + N);
 
@@ -161,12 +181,14 @@ int main() {
     best_avg = avg;
     best_sol = curr_sol;
   }
+/*
   if (best_avg > (avg = solve2())) {
     best_avg = avg;
     best_sol = curr_sol;
   }
   //etc...
-
+*/
+  printf("%.8lf\n", best_avg);
   for (int i = 0; i < best_sol.size(); i++) {
     printf("%c %d\n", best_sol[i].first, best_sol[i].second);
   }
