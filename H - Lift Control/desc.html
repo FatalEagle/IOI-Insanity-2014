@@ -21,7 +21,7 @@
 <li>The elevator may change directions at any time. The time it takes to change directions is negligible.</li>
 <li>The elevator travels at a constant speed of <var>V</var> (0 &lt; <var>V</var> &le; 20, <var>V</var> is a real number) floors per second. While the elevator is traveling, it may stop at any floor, either to remain idle, or to pick up/drop off passengers.</li>
 <li>The elevator may stop for as long as possible on a floor. Standard regulations require for elevator doors to open for at least <var>S</var> (1 &le; <var>S</var> &le; 20, <var>S</var> is an integer) seconds each time. This means that if an elevator is told to stop for fewer than <var>S</var> seconds, it will simple remain idle with its doors closed, and no passengers may get on or off. Note that your passengers are bribed, so they will take no more than <var>S</var> total seconds to get on and off. They will never delay the door-close by hitting the door-open button or stand in the way of the sensors.</li>
-<li>There are <var>N</var> (1 &le; <var>N</var> &le; 10000) passengers that need to be serviced. The passengers are each uniquely labeled with an integer from 1 to <var>N</var>.</li>
+<li>There are <var>N</var> (1 &le; <var>N</var> &le; 1000) passengers that need to be serviced. The passengers are each uniquely labeled with an integer from 1 to <var>N</var>.</li>
 <li>The following information is known about the passengers you've bribed:
     <ul>
       <li>At <var>t<sub>i</sub></var> seconds (0 &le; <var>t<sub>i</sub></var> &le; 1000000, <var>t<sub>i</sub></var> is an integer), passenger <var>i</var> (1 &le; <var>i</var> &le; <var>N</var>) will arrive at the elevator doors on floor <var>A<sub>i</sub></var> (1 &le; <var>A<sub>i</sub></var> &le; <var>F</var>).</li>
@@ -64,8 +64,8 @@ The following <var>N</var> lines each contain three integers describing the requ
 
 <table id="command-table">
 <tr><th>Command</th><th>Format</th><th>Description</th></tr>
-<tr><td>GO <var>b</var></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = &lceil;<var>t</var><sub>1</sub> + | <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
-<tr><td>STOP <var>t</var></td><td><pre>S <var>t</var></pre></td><td>If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
+<tr><td>GO <var>b</var></td><td><pre>G <var>b</var></pre></td><td>Move the elevator from its current floor to floor <var>b</var> (1 &le; <var>b</var> &le; <var>F</var>, <var>b</var> is an integer) at a speed of <var>V</var> floors per second. If the elevator arrives on floor <var>b</var> at a non-whole number of seconds, then it will wait until the entire second is over before processing more commands. Specifically, if the current floor is <var>a</var> and the current time is <var>t</var><sub>1</sub>, then the elevator will stop on floor <var>b</var> at time <var>t</var><sub>2</sub> = <var>t</var><sub>1</sub> + &lceil;| <var>b</var> &minus; <var>a</var> | &div; <var>V</var>&rceil;, where | <var>x</var> | is the absolute value function, and &lceil;<var>x</var>&rceil; is the smallest integer greater than or equal to <var>x</var>.</td></tr>
+<tr><td>STOP <var>t</var></td><td><pre>S <var>t</var></pre></td><td>Stop the elevator for <var>t</var> (0 &le; <var>t</var> &le; 1000000, <var>t</var> is an integer) seconds. If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 </table>
 
 <p>Each line of the output should describe an elevator command in one of the three formats listed above. The commands will be performed back to back (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
@@ -216,9 +216,8 @@ Then, your score out of 100 for the test case will be:</p>
 <ul>
   <li>0, if any of the following holds true:
     <ul>
-      <li>The output format is incorrect (lines do not follow one of the three formats listed above);</li>
-      <li>Not all passengers have an opportunity to get on and off the elevator to reach their destination; or</li>
-      <li>You try to go to an invalid floor (not in the range of 1&hellip;<var>F</var>).</li>
+      <li>The output format is incorrect (lines do not follow one of the three formats listed above); or</li>
+      <li>Not all passengers have an opportunity to get on and off the elevator to reach their destination.</li>
     </ul>
   </li>
   <li>between 10 and 100, if <var>X</var> &ge; <var>Y</var>.
@@ -227,10 +226,10 @@ Then, your score out of 100 for the test case will be:</p>
       <li>Specifically, your score will be 10 + 90 &times; (<var>Y</var> / <var>X</var>), rounded to the nearest integer.</li>
     </ul>
   </li>
-  <li>100, if <var>X</var> &lt; <var>Y</var>.</li>
+  <li>100 (or over), if <var>X</var> &lt; <var>Y</var>.</li>
 </ul>
 
-<p>Here, <var>Y</var> will actually be the best average waiting time for the test case amongst all the submissions during the contest. When this problem is first released, <var>Y</var> will only be an approximated value by the contest organizers (the actual best answer may be much better, or much worse). Whatever you score right now is only relative to other competitors! After the contest period is over, all submissions will be rejudged using the most updated value of <var>Y</var>. That will be the score that really counts!</p>
+<p>Here, <var>Y</var> will actually be the best average waiting time for the test case amongst all the submissions during the contest. When this problem is first released, <var>Y</var> will only be an approximation by the contest organizers (the actual best answer may be much better, or much worse). Whatever you score right now is only relative to other competitors! After the contest period is over, all submissions will be rejudged using the most updated value of <var>Y</var> so that solutions do not score over 100. That will be the score that really counts!</p>
 
 <h3>Simulator</h3>
 <p>For testing purposes, you are provided with an program to simulate the activities of the elevator and passengers. The simulator program <a href="simulator.py" target="_blank">simulator.py<a/> will accept the following command line options:</p>

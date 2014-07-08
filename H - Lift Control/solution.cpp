@@ -163,7 +163,7 @@ double solve2() {
 }
 
 int main() {
-#define NUM "10"
+#define NUM "6"
   freopen("testdata/" NUM ".in", "r", stdin);
   freopen("testdata/" NUM ".out", "w", stdout);
 
