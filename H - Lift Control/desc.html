@@ -216,20 +216,21 @@ Then, your score out of 100 for the test case will be:</p>
 <ul>
   <li>0, if any of the following holds true:
     <ul>
-      <li>The output format is incorrect, and does not follow one of the three formats listed above;</li>
+      <li>The output format is incorrect (lines do not follow one of the three formats listed above);</li>
       <li>Not all passengers have an opportunity to get on and off the elevator to reach their destination; or</li>
       <li>You try to go to an invalid floor (not in the range of 1&hellip;<var>F</var>).</li>
     </ul>
   </li>
-  <li>otherwise:
+  <li>between 10 and 100, if <var>X</var> &ge; <var>Y</var>.
     <ul>
-      <li>(<var>Y</var> / <var>X</var>)&times;100 rounded to the nearest integer, if <var>X</var> &gt; <var>Y</var>; and</li>
-      <li>100, if <var>X</var> &le; <var>Y</var>.</li>
+      <li>Your program scores 10 base points for getting any valid way of moving all passengers to their designated floors, plus an additional score that is determined from a rational scale based on the values <var>X</var> and <var>Y</var>.</li>
+      <li>Specifically, your score will be 10 + 90 &times; (<var>Y</var> / <var>X</var>), rounded to the nearest integer.</li>
     </ul>
   </li>
+  <li>100, if <var>X</var> &lt; <var>Y</var>.</li>
 </ul>
 
-<p>Here, <var>Y</var> will actually be an excellent solution for the test case, as predetermined by the contest organizers.</p>
+<p>Here, <var>Y</var> will actually be the best average waiting time for the test case amongst all the submissions during the contest. When this problem is first released, <var>Y</var> will only be an approximated value by the contest organizers (the actual best answer may be much better, or much worse). Whatever you score right now is only relative to other competitors! After the contest period is over, all submissions will be rejudged using the most updated value of <var>Y</var>. That will be the score that really counts!</p>
 
 <h3>Simulator</h3>
 <p>For testing purposes, you are provided with an program to simulate the activities of the elevator and passengers. The simulator program <a href="simulator.py" target="_blank">simulator.py<a/> will accept the following command line options:</p>
