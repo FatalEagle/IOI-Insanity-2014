@@ -21,12 +21,7 @@ struct passenger {
 int N, F, S;  double V;
 int T[MAX_N], A[MAX_N], B[MAX_N];
 
-typedef vector< pair<char, int> > solution;
-
-/************* Elevator and passenger interface *************/
-
 int curr_t, curr_f;
-solution curr_sol;
 
 //wait[f] = IDs of passengers waiting on floor f
 //insi[f] = IDs inside the elevator getting off on floor f
@@ -40,7 +35,6 @@ int t_exit[MAX_N];
 void reset() {
   curr_t = 0;
   curr_f = 1;
-  curr_sol.clear();
   fill(wait, wait + MAX_F, vector<int>());
   fill(insi, insi + MAX_F, vector<int>());
   fill(t_exit, t_exit + MAX_N, -1);
@@ -48,13 +42,11 @@ void reset() {
 }
 
 void go(int f) {
-  curr_sol.push_back(make_pair('G', f));
   curr_t += ceil(fabs(f - curr_f)/V);
   curr_f = f;
 }
 
 void stop(int t) {
-  curr_sol.push_back(make_pair('S', t));
   if (t >= S) { //open doors to let people out
     for (int i = 0; i < insi[curr_f].size(); i++) {
       t_exit[insi[curr_f][i]] = curr_t;
@@ -78,8 +70,7 @@ void stop(int t) {
 double get_avg() {
   double ret = 0;
   for (int i = 0; i < N; i++) {
-    if (t_exit[i] == -1)
-      exit(1); //not all passengers processed
+    if (t_exit[i] == -1) exit(1); //WA
     ret += t_exit[i] - T[i] + 1;
   }
   return ret / N;
