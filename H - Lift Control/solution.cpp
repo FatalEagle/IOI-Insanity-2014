@@ -2,6 +2,8 @@
 // Official Solution
 // By Alex Li
 
+#define NDEBUG
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -23,11 +25,11 @@ int N, F, S;  double V;
 int T[MAX_N], A[MAX_N], B[MAX_N];
 
 typedef vector< pair<char, int> > solution;
+solution curr_sol;
 
 /************* Elevator and passenger interface *************/
 
 int curr_t = 0, curr_f = 1;
-solution curr_sol;
 
 //wait[f] = IDs of passengers waiting on floor f
 //insi[f] = IDs inside the elevator getting off on floor f
@@ -35,7 +37,7 @@ vector<int> wait[MAX_F], insi[MAX_F];
 int ptr = 0; //pointer to current passenger in P[]
 
 //time when person i got out of the elevator
-int done = 0, t_exit[MAX_N];
+int t_exit[MAX_N];
 
 //this must be called before every run-through
 void reset() {
@@ -45,7 +47,6 @@ void reset() {
   fill(wait, wait + MAX_F, vector<int>());
   fill(insi, insi + MAX_F, vector<int>());
   fill(t_exit, t_exit + MAX_N, -1);
-  done = 0;
   ptr = 0;
 }
 
@@ -60,7 +61,6 @@ void stop(int t) {
   if (t >= S) { //open doors to let people out
     for (int i = 0; i < insi[curr_f].size(); i++) {
       t_exit[insi[curr_f][i]] = curr_t;
-      done++;
     }
     insi[curr_f].clear();
   }
@@ -85,7 +85,7 @@ double get_avg() {
       ret += t_exit[i] - T[i] + 1;
       cnt++;
     }
-#if 0
+#ifndef NDEBUG
     else {
       fprintf(stderr, "%d - Not all passengers served!\n");
       return 1E30;
@@ -96,7 +96,7 @@ double get_avg() {
   return (cnt == 0) ? 1E30 : (ret / cnt);
 }
 
-/************* Implement Solutions Below *************/
+/****************** Implement Solutions Below ******************/
 
 /* Heuristic Solution 1 - Back and Forth
 
@@ -134,60 +134,76 @@ double solve1() {
   return get_avg();
 }
 
+/* Heuristic Solution 2 - Greedy by Demand
 
-/* Heuristic Solution 2 - Greedy
-
-   Tend to the floor that has the largest waiting average
+   Tend to the floor that has the highest demand.
+   The current demand of floor f is the current
+   average waiting time of all passengers who:
+   1) are in waiting, would like to go to floor f
+   2) are inside the elevator, would like to go floor f
 */
-
 double solve2() {
   reset();
-  return get_avg();
   for (int steps = 0; steps < 100000; steps++) {
-    int max_time = -1, max_floor;
+    int demand[MAX_F] = {0};
     for (int f = 1; f <= F; f++) {
-      if (wait[f].empty()) continue;
-      double floor_avg = 0;
-      for (int i = 0; i < wait[f].size(); i++) {
-        floor_avg += curr_t - A[wait[f][i]];
-      }
-      floor_avg /= wait[f].size();
-      if (floor_avg > max_time) {
-        max_time = floor_avg;
-        max_floor = f;
+      if (wait[f].empty() && insi[f].empty()) continue;
+      for (int i = 0; i < wait[f].size(); i++)
+        demand[f] += curr_t - T[wait[f][i]];
+      for (int i = 0; i < insi[f].size(); i++)
+        demand[f] += curr_t - T[insi[f][i]];
+    }
+    double max_demand = -1; int best_floor;
+    for (int f = 1; f <= F; f++) {
+      //use an approximation also based on the time
+      double metric = demand[f]/ceil(fabs(curr_f - f)/V);
+      if (demand[f] > 0 && metric > max_demand) {
+        max_demand = metric;
+        best_floor = f;
       }
     }
+    if (max_demand == -1) {
+      if (ptr == N) break; //done
+      go(P[ptr].a); //go to the next passenger's floor
+      //stop just long enough so they can get in
+      stop(max(S, P[ptr].t - curr_t + 1));
+    } else {
+      go(best_floor);
+      stop(S);
+    }
   }
+  return get_avg();
+}
 
+/* Heuristic Solution 3 - Greedy by Distance
+
+*/
+double solve3() {
+  reset();
+  for (int steps = 0; steps < 100000; steps++) {
+
+  }
   return get_avg();
 }
 
 int main() {
-  freopen("9.in", "r", stdin);
-  freopen("9.out", "w", stdout);
-
   scanf("%d%d%lf%d", &F, &S, &V, &N);
   for (int i = 0; i < N; i++) {
     scanf("%d%d%d", T + i, A + i, B + i);
     P[i] = (passenger){i, T[i], A[i], B[i]};
   }
   sort(P, P + N);
-
   double best_avg = 1E30, avg;
   solution best_sol;
-
   if (best_avg > (avg = solve1())) {
     best_avg = avg;
     best_sol = curr_sol;
   }
-/*
   if (best_avg > (avg = solve2())) {
     best_avg = avg;
     best_sol = curr_sol;
   }
-  //etc...
-*/
-  printf("%.8lf\n", best_avg);
+  //printf("%lf\n", best_avg);
   for (int i = 0; i < best_sol.size(); i++) {
     printf("%c %d\n", best_sol[i].first, best_sol[i].second);
   }

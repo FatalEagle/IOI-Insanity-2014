@@ -32,7 +32,7 @@ MAX_F = 1000
 MAX_S = 20
 MAX_V = 20
 MAX_N = 10000
-MAX_T = 100000
+MAX_T = 1000000
 
 logtext = []
 
@@ -165,12 +165,12 @@ def main():
             people.append([ID] + map(int, line.strip().split()))
             assert ((0 <= people[-1][1] <= MAX_T) and
                     (1 <= people[-1][2] <= F) and
-                    (1 <= people[-1][3] <= F)), (
-                   'Passenger ', ID, ' values out of bounds')
+                    (1 <= people[-1][3] <= F)
+                   ), 'Passenger ' + str(ID) + ' values out of bounds'
             ID += 1
         assert len(people) == N, 'Number of passengers does not match N'
     except IOError:
-        print 'Error opening input file', args.infile
+        print 'Error opening input file' + args.infile
         sys.exit(1)
     except ValueError:
         print 'Error parsing values in input file'

@@ -1,4 +1,3 @@
-
 <h3>Maniacal Midsummer Marathon 2014 by AL, TL, JJ</h3>
 <h2>Problem H: Lift Control</h2>
 
@@ -18,7 +17,7 @@
 
 <p>Your program will have the following information before the challenge:</p>
 <ul>
-<li>There are <var>F</var> (1 &le; <var>F</var> &le; 1000) floors in the building being serviced, uniquely labeled with an integer from 1 to <var>N</var>.</li>
+<li>There are <var>F</var> (1 &le; <var>F</var> &le; 1000) floors in the building being serviced, uniquely labeled with an integer from 1 to <var>F</var>.</li>
 <li>The elevator may change directions at any time. The time it takes to change directions is negligible.</li>
 <li>The elevator travels at a constant speed of <var>V</var> (0 &lt; <var>V</var> &le; 20, <var>V</var> is a real number) floors per second. While the elevator is traveling, it may stop at any floor, either to remain idle, or to pick up/drop off passengers.</li>
 <li>The elevator may stop for as long as possible on a floor. Standard regulations require for elevator doors to open for at least <var>S</var> (1 &le; <var>S</var> &le; 20, <var>S</var> is an integer) seconds each time. This means that if an elevator is told to stop for fewer than <var>S</var> seconds, it will simple remain idle with its doors closed, and no passengers may get on or off. Note that your passengers are bribed, so they will take no more than <var>S</var> total seconds to get on and off. They will never delay the door-close by hitting the door-open button or stand in the way of the sensors.</li>
@@ -54,7 +53,7 @@ The following <var>N</var> lines each contain three integers describing the requ
 #command-table {
   border: 1px solid black;
   border-collapse: collapse;
-  max-width: 1000px;
+  max-width: 800px;
 }
 
 #command-table th, #command-table td {
@@ -69,7 +68,7 @@ The following <var>N</var> lines each contain three integers describing the requ
 <tr><td>STOP <var>t</var></td><td><pre>S <var>t</var></pre></td><td>Stop the elevator for <var>t</var> (0 &le; <var>t</var> &le; 1000000, <var>t</var> is an integer) seconds. If <var>t</var> is less than the minimum regulated time <var>S</var>, then the elevator will simply idle on its current floor and passengers will <var>not</var> be able to get on for this stopped period. Otherwise if <var>t</var> &ge; <var>S</var>, then the elevator doors will open for <var>t</var> seconds, allowing passengers to get on or off at the floor it's currently on. If the current time is <var>t</var><sub>1</sub>, then passengers arriving may step into the elevator during any time in the range [<var>t</var><sub>1</sub>, <var>t</var><sub>1</sub> + <var>t</var>) &mdash; that is, including <var>t</var><sub>1</sub> but not including <var>t</var><sub>1</sub> + <var>t</var> (when the door closes).</td></tr>
 </table>
 
-<p>Each line of the output should describe an elevator command in one of the three formats listed above. The commands will be performed back to back (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
+<p>Each line of the output should describe an elevator command in one of the two formats listed above. The commands will be performed back to back (with the slight exception of those that follow a <code>GO</code> command, which will be performed at the next available whole number second after the elevator arrives at its floor), and will control the behavior of the elevator from start to finish.</p>
 
 <h3>Sample Input</h3>
 <pre>
@@ -217,7 +216,7 @@ Then, your score out of 100 for the test case will be:</p>
 <ul>
   <li>0, if any of the following holds true:
     <ul>
-      <li>The output format is incorrect (lines do not follow one of the three formats listed above); or</li>
+      <li>The output format is incorrect (lines do not follow one of the two formats listed above); or</li>
       <li>Not all passengers have an opportunity to get on and off the elevator to reach their destination.</li>
     </ul>
   </li>
@@ -232,12 +231,12 @@ Then, your score out of 100 for the test case will be:</p>
 
 <p>Here, <var>Y</var> will actually be the best average waiting time for the test case amongst all the submissions during the contest. When this problem is first released, <var>Y</var> will only be an approximation by the contest organizers (the actual best answer may be much better, or much worse). Whatever you score right now is only relative to other competitors! After the contest period is over, all submissions will be rejudged using the most updated value of <var>Y</var> so that solutions do not score over 100. That will be the score that really counts!</p>
 
-<h3>Simulator</h3>
-<p>For testing purposes, you are provided with an program to simulate the activities of the elevator and passengers. The simulator program <a href="simulator.py" target="_blank">simulator.py<a/> will accept the following command line options:</p>
+<h3>Experimentation</h3>
+<p>For testing purposes, you are provided with an program to simulate the activities of the elevator and passengers. The simulator program <a href="content/desc/mmm14h/simulator.py" target="_blank">simulator.py<a/> will accept the following command line options:</p>
 
 <ul>
-<li><code>-h</code> will give a brief overview of the available options;</li>
+<li><code>-h</code> will give a brief overview of the available options</li>
 <li><code>-i INFILE </code> loads the input file in the input format as described above</li>
 <li><code>-cmd CMDFILE </code> loads the command file in the output format as described above</li>
-<li><code>-log LOGFILE </code> specifies the file to dump intermediate information of the simulation into. This is optional, as the same information will always be logged in standard output.</li>
+<li><code>-log LOGFILE </code> specifies the file into which to dump information about the simulation. This is optional, as the same information will always be logged in standard output.</li>
 </ul>
